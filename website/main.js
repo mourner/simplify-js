@@ -10,7 +10,7 @@
 		pointNumAfter = get('point-num-after');
 
 	var ctx = canvas.getContext('2d');
-	ctx.translate(-20, -60);
+	ctx.translate(-50, -110);
 
 	ctx.strokeStyle = '#f53';
 	ctx.lineWidth = 2;

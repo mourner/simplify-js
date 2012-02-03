@@ -1,11 +1,11 @@
 .canvas-container {
 	margin: 20px 0;
 
-	-webkit-border-radius: 20px;
-	-moz-border-radius: 20px;
-	border-radius: 20px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
 
-	background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#eeeeee));
+	background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f0f2f3));
 	background-image: -moz-linear-gradient(top, white, #eeeeee);
 	background-image: -ms-linear-gradient(top, white, #eeeeee);
 	background-image: -o-linear-gradient(top, white, #eeeeee);
@@ -14,19 +14,19 @@
 	box-shadow: 0 3px 20px #aaa;
 }
 .container {
-	width: 760px;
+	width: 720px;
 	margin: 0 auto;
 	position: relative;
 	font: 14px/1.5 "Lucida Grande", Verdana, sans-serif;
 	color: #333;
 }
-#fd-slider-tolerance {
-	margin: 0px 15px;
-	width: 730px;
+p {
+	margin: 1.5em 0;
 }
 .canvas-container {
 	position: relative;
-	margin-bottom: 30px;
+	margin-bottom: 40px;
+	margin-top: 30px;
 }
 .cf:before,
 .cf:after {
@@ -37,19 +37,17 @@
 .cf:after {
     clear:both;
 }
-.stats, .footer, code {
+.stats, .footer, .attribution {
 	color: #666;
-}
-.stats {
-	top: 30px;
 }
 .stats em {
 	font-style: normal;
 	color: black;
 }
 code {
-	background: #eee;
-	padding: 0px 3px;
+	background: #f0f0f0;
+	padding: 2px 5px;
+	color: #555;
 
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -58,26 +56,38 @@ code {
 h1 {
 	text-shadow: 5px 5px 10px #999;
 	font: bold 36px Georgia, serif;
+	margin-top: 40px;
 }
 a {
 	color: #0083CB;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
 }
 .stats, .attribution {
 	position: absolute;
-	left: 20px;
+	left: 30px;
 	font-size: 12px;
+	line-height: 1.6;
+}
+.stats {
+	font-size: 16px;
+	left: 30px;
+	top: 130px;
 	line-height: 1.8;
+}
+.tolerance-container {
+	margin: 15px;
 }
 .attribution {
 	bottom: 10px;
 	width: 500px;
-	font-size: 12px;
-	line-height: 1.8;
-	color: #666;
+	text-shadow: 0 1px 0 white;
 }
 
 .social-buttons {
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: -10px;
+	right: -30px;
 }
