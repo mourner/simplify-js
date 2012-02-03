@@ -16,6 +16,7 @@
 .container {
 	width: 760px;
 	margin: 0 auto;
+	position: relative;
 	font: 14px/1.5 "Lucida Grande", Verdana, sans-serif;
 	color: #333;
 }
@@ -72,4 +73,10 @@ a {
 	font-size: 12px;
 	line-height: 1.8;
 	color: #666;
+}
+
+.social-buttons {
+	position: absolute;
+	top: 0;
+	right: 0;
 }
