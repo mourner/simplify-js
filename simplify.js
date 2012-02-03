@@ -2,61 +2,59 @@
 	"use strict";
 
 
-	// modify the following 2 functions to suit your point format
-	// and/or switch to 3D points
+	// modify the following 2 functions to suit your point format and/or switch to 3D points
 
-	// square distance between 2 points
-
-	function sqDist(p1, p2) {
+	function sqDist(p1, p2) { // square distance between 2 points
 
 		var dx = p1.x - p2.x,
+		    // dz = p1.z - p2.z,
 		    dy = p1.y - p2.y;
-		//var dz = p1.z - p2.z;
 
+		// return dx * dx + dy * dy + dz * dz;
 		return dx * dx + dy * dy;
-		//return dx * dx + dy * dy + dz * dz;
 	}
 
-
-	// square distance from a point to a closest point on a segment
-
-	function sqSegDist(p, p1, p2) {
+	function sqSegDist(p, p1, p2) { // square distance from a point to a segment
 
 		var x  = p1.x,
 		    y  = p1.y,
-		    //z = p1.z,
+		    // z = p1.z,
+
 		    dx = p2.x - x,
 		    dy = p2.y - y,
-		    //dz = p2.z - z,
+		    // dz = p2.z - z,
+
 		    t;
 
 		if (dx !== 0 || dy !== 0) {
 			t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy);
-			//t = ((p.x - x) * dx + (p.y - y) * dy + (p.z - z) * dz) / (dx * dx + dy * dy + dz * dz);
+			// t = ((p.x - x) * dx + (p.y - y) * dy + (p.z - z) * dz) /
+			// 		(dx * dx + dy * dy + dz * dz);
 
 			if (t > 1) {
 				x = p2.x;
 				y = p2.y;
-				//z = p2.z;
+				// z = p2.z;
+
 			} else if (t > 0) {
 				x += dx * t;
 				y += dy * t;
-				//z += dz * t;
+				// z += dz * t;
 			}
 		}
 
 		dx = p.x - x;
 		dy = p.y - y;
-		//dz = p.z - z;
+		// dz = p.z - z;
 
+		// return dx * dx + dy * dy + dz * dz;
 		return dx * dx + dy * dy;
-		//return dx * dx + dy * dy + dz * dz;
 	}
 
 	// the rest of the code doesn't care for the point format
 
 
-	// simplification based on radial distance
+	// radial distance simplification
 
 	function simplifyRadialDist(points, sqTolerance) {
 
