@@ -1,0 +1,145 @@
+(function (global) {
+	"use strict";
+
+
+	// modify the following 2 functions to suit your point format
+	// and/or switch to 3D points
+
+	// square distance between 2 points
+
+	function sqDist(p1, p2) {
+
+		var dx = p1.x - p2.x,
+		    dy = p1.y - p2.y;
+		//var dz = p1.z - p2.z;
+
+		return dx * dx + dy * dy;
+		//return dx * dx + dy * dy + dz * dz;
+	}
+
+
+	// square distance from a point to a closest point on a segment
+
+	function sqSegDist(p, p1, p2) {
+
+		var x  = p1.x,
+		    y  = p1.y,
+		    //z = p1.z,
+		    dx = p2.x - x,
+		    dy = p2.y - y,
+		    //dz = p2.z - z,
+		    t;
+
+		if (dx !== 0 || dy !== 0) {
+			t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy);
+			//t = ((p.x - x) * dx + (p.y - y) * dy + (p.z - z) * dz) / (dx * dx + dy * dy + dz * dz);
+
+			if (t > 1) {
+				x = p2.x;
+				y = p2.y;
+				//z = p2.z;
+			} else if (t > 0) {
+				x += dx * t;
+				y += dy * t;
+				//z += dz * t;
+			}
+		}
+
+		dx = p.x - x;
+		dy = p.y - y;
+		//dz = p.z - z;
+
+		return dx * dx + dy * dy;
+		//return dx * dx + dy * dy + dz * dz;
+	}
+
+	// the rest of the code doesn't care for the point format
+
+
+	// simplification based on radial distance
+
+	function simplifyRadialDist(points, sqTolerance) {
+
+		var newPoints = [points[0]],
+		    len = points.length,
+		    i,
+		    prev;
+
+		for (i = 1, prev = 0; i < len; i += 1) {
+			if (sqDist(points[i], points[prev]) > sqTolerance) {
+				newPoints.push(points[i]);
+				prev = i;
+			}
+		}
+
+		if (prev < len - 1) {
+			newPoints.push(points[len - 1]);
+		}
+
+		return newPoints;
+	}
+
+
+	// simplification using optimized Douglas-Peucker algorithm
+
+	function markPointsDP(points, markers, sqTolerance, first, last) {
+
+		var maxSqDist = 0,
+		    i,
+		    sqDist,
+		    index;
+
+		for (i = first + 1; i < last; i += 1) {
+			sqDist = sqSegDist(points[i], points[first], points[last]);
+
+			if (sqDist > maxSqDist) {
+				index = i;
+				maxSqDist = sqDist;
+			}
+		}
+
+		if (maxSqDist > sqTolerance) {
+			markers[index] = 1;
+
+			markPointsDP(points, markers, sqTolerance, first, index);
+			markPointsDP(points, markers, sqTolerance, index, last);
+		}
+	}
+
+	function simplifyDouglasPeucker(points, sqTolerance) {
+
+		var len = points.length,
+		    ArrayConstructor = typeof Uint8Array !== 'undefined' ? Uint8Array : Array,
+		    markers = new ArrayConstructor(len),
+		    i,
+		    newPoints = [];
+
+		markers[0] = markers[len - 1] = 1;
+
+		markPointsDP(points, markers, sqTolerance, 0, len - 1);
+
+		for (i = 0; i < len; i += 1) {
+			if (markers[i]) {
+				newPoints.push(points[i]);
+			}
+		}
+
+		return newPoints;
+	}
+
+
+	var root = (typeof exports !== 'undefined' ? exports : global);
+
+	root.simplify = function (points, tolerance) {
+
+		tolerance = typeof tolerance !== 'undefined' ? tolerance : 1;
+
+		var sqTolerance = tolerance * tolerance;
+
+		points = simplifyRadialDist(points, sqTolerance);
+		points = simplifyDouglasPeucker(points, sqTolerance);
+
+		return points;
+	};
+
+}(this));
