@@ -1,0 +1,75 @@
+.canvas-container {
+	margin: 20px 0;
+
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+
+	background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#eeeeee));
+	background-image: -moz-linear-gradient(top, white, #eeeeee);
+	background-image: -ms-linear-gradient(top, white, #eeeeee);
+	background-image: -o-linear-gradient(top, white, #eeeeee);
+	background-image: linear-gradient(to bottom, white, #eeeeee);
+
+	box-shadow: 0 3px 20px #aaa;
+}
+.container {
+	width: 760px;
+	margin: 0 auto;
+	font: 14px/1.5 "Lucida Grande", Verdana, sans-serif;
+	color: #333;
+}
+#fd-slider-tolerance {
+	margin: 0px 15px;
+	width: 730px;
+}
+.canvas-container {
+	position: relative;
+}
+.cf:before,
+.cf:after {
+    content:"";
+    display:table;
+}
+
+.cf:after {
+    clear:both;
+}
+.stats, .footer, code {
+	color: #666;
+}
+.stats {
+	top: 30px;
+}
+.stats em {
+	font-style: normal;
+	color: black;
+}
+code {
+	background: #eee;
+	padding: 0px 3px;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+h1 {
+	text-shadow: 5px 5px 10px #999;
+	font: bold 36px Georgia, serif;
+}
+a {
+	color: #0083CB;
+}
+.stats, .attribution {
+	position: absolute;
+	left: 20px;
+	font-size: 12px;
+	line-height: 1.8;
+}
+.attribution {
+	bottom: 10px;
+	width: 500px;
+	font-size: 12px;
+	line-height: 1.8;
+	color: #666;
+}

@@ -1,0 +1,115 @@
+/*
+  Sample tooltip code. Only works on grade A browsers (so no IE6, 7 or 8).
+
+  See: http://nicolasgallagher.com/multiple-backgrounds-and-borders-with-css2/ for full info on
+  how to style generated content & the associated pitfalls
+
+  This code to be taken as experimental & untested - use at your discretion
+
+  If showing the tooltip above the sider handle you are relegated to showing
+  single line tooltips due to styling constraints!
+*/
+
+.fd-slider-handle:before,
+.fd-slider-handle:after
+        {
+        content:"";
+        /* Remove from screen */
+        opacity:0;
+        /* Firefox */
+        -moz-transition-property: all;
+        -moz-transition-duration: 0.3s;
+        -moz-transition-delay: 0.2s;
+        /* WebKit */
+        -webkit-transition-property: all;
+        -webkit-transition-duration: 0.3s;
+        -webkit-transition-delay: 0.2s;
+        /* Opera */
+        -o-transition-property: all;
+        -o-transition-duration: 0.3s;
+        -o-transition-delay: 0.2s;
+        /* Standard */
+        transition-property: all;
+        transition-duration: 0.3s;
+        transition-delay: 0.2s;
+        }
+/*
+   The tooltip body - as we position it above the slider and position the tooltip arrow
+   below it, we need to know the height of the body. This means that multi-line tooltips
+   are not supported.
+
+   To support multi-line tooltips, you will need to position the tooltip below the slider
+   and the tooltip pointer above the tooltip body. Additionally, you will have to set the
+   tooltip bodies "height" to auto
+*/
+.fd-slider-handle:before
+        {
+        display:block;
+        position:absolute;
+        top:-30px;
+        left:-10px;
+        margin:0;
+        width:30px;
+        padding:5px;
+        height:14px;
+        font: 12px/12px Tahoma, Verdana, sans-serif;
+        /*text-shadow:0 1px 0 #000;*/
+        color:#fff;
+        background:#222;
+        z-index:1;
+        /* Use the ARIA valuetext property, set by the script, to generate the tooltip content */
+        content:attr(aria-valuetext);
+        /* Border radius and box shadow */
+        -moz-border-radius:3px;
+        -webkit-border-radius:3px;
+        border-radius:3px;
+        -moz-box-shadow: 0 0 4px #aaa;
+        -webkit-box-shadow: 0 0 4px #aaa;
+        box-shadow: 0 0 4px #aaa;
+        }
+.fd-slider-handle:after
+        {
+        outline:none;
+        content:"";
+        display:block;
+        position:absolute;
+        top:-14px;
+        left:50%;
+        margin:0 0 0 -5px;
+        background:#222;
+        z-index:2;
+        width:10px;
+        height:10px;
+        overflow:hidden;
+        /* Rotate element by 45 degress to get the "\/" pointer effect */
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        /* Add a box shadow */
+        -moz-box-shadow: 0 0 4px #aaa;
+        -webkit-box-shadow: 0 0 4px #aaa;
+        box-shadow: 0 0 4px #aaa;
+        /* Clip */
+        clip:rect(4px, 14px, 14px, 4px);
+        }
+/* Change opacity and position to kick in the transitions */
+.fd-slider-focused .fd-slider-handle:before,
+.fd-slider-hover   .fd-slider-handle:before,
+.fd-slider-active  .fd-slider-handle:before
+        {
+        top:-25px;
+        opacity:1;
+        }
+.fd-slider-focused .fd-slider-handle:after,
+.fd-slider-hover   .fd-slider-handle:after,
+.fd-slider-active  .fd-slider-handle:after
+        {
+        top:-9px;
+        opacity:1;
+        }
+/* Remove completely for IE */
+.oldie .fd-slider-handle:before,
+.oldie .fd-slider-handle:after
+        {
+        display:none;
+        }
