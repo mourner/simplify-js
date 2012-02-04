@@ -55,14 +55,14 @@
         font: 12px/12px Tahoma, Verdana, sans-serif;
         /*text-shadow:0 1px 0 #000;*/
         color:#fff;
-        background:#222;
+        background:#333;
         z-index:1;
         /* Use the ARIA valuetext property, set by the script, to generate the tooltip content */
         content:attr(aria-valuetext);
         /* Border radius and box shadow */
-        -moz-border-radius:3px;
-        -webkit-border-radius:3px;
-        border-radius:3px;
+        -moz-border-radius:5px;
+        -webkit-border-radius:5px;
+        border-radius:5px;
         -moz-box-shadow: 0 0 4px #aaa;
         -webkit-box-shadow: 0 0 4px #aaa;
         box-shadow: 0 0 4px #aaa;
@@ -76,7 +76,7 @@
         top:-14px;
         left:50%;
         margin:0 0 0 -5px;
-        background:#222;
+        background:#333;
         z-index:2;
         width:10px;
         height:10px;
@@ -93,16 +93,18 @@
         clip:rect(4px, 14px, 14px, 4px);
         }
 /* Change opacity and position to kick in the transitions */
-.fd-slider-focused .fd-slider-handle:before,
+/*.fd-slider-focused .fd-slider-handle:before,
 .fd-slider-hover   .fd-slider-handle:before,
-.fd-slider-active  .fd-slider-handle:before
+.fd-slider-active  .fd-slider-handle:before*/
+.fd-slider-handle:before
         {
         top:-25px;
         opacity:1;
         }
-.fd-slider-focused .fd-slider-handle:after,
+/*.fd-slider-focused .fd-slider-handle:after,
 .fd-slider-hover   .fd-slider-handle:after,
-.fd-slider-active  .fd-slider-handle:after
+.fd-slider-active  .fd-slider-handle:after*/
+.fd-slider-handle:after
         {
         top:-9px;
         opacity:1;

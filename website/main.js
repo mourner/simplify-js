@@ -52,7 +52,6 @@
 		step: '0.01',
 		min: 0.01,
 		max: 5,
-		value: 0.01,
 		hideInput: true,
 		callbacks: {
 			change: [onSliderChange],
