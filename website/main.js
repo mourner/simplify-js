@@ -10,7 +10,7 @@
 		pointNumAfter = get('point-num-after');
 
 	var ctx = canvas.getContext('2d');
-	ctx.translate(-50, -110);
+	ctx.translate(-200, -100);
 
 	ctx.strokeStyle = '#f53';
 	ctx.lineWidth = 2;
@@ -23,7 +23,7 @@
 
 	function update(tolerance) {
 
-		ctx.clearRect(0, 0, 800, 500);
+		ctx.clearRect(200, 100, 800, 400);
 
 		var i, len, p,
 		    newPoints = simplify(points, tolerance),
