@@ -118,29 +118,40 @@
 
   // simplification using optimized Douglas-Peucker algorithm
 
-  function markPointsDP(points, markers, sqTolerance, first, last) {
+  function markPointsDP(points, markers, sqTolerance) {
 
-    var maxSqDist = 0,
-        i = first,
+    var range,
+        first,
+        last,
+        stack = [
+          [0, points.length - 1]
+        ],
+        maxSqDist,
+        i,
         sqDist,
         index;
+    while (range = stack.pop()) {
+      first = range[0];
+      last = range[1];
+      maxSqDist = 0;
+      i = first;
+      index = 0;
 
-    while (++i < last) {
-      sqDist = squareSegmentDistance(points[i], points[first], points[last]);
+      while (++i < last) {
+        sqDist = squareSegmentDistance(points[i], points[first], points[last]);
 
-      if (sqDist > maxSqDist) {
-        index = i;
-        maxSqDist = sqDist;
+        if (sqDist > maxSqDist) {
+          index = i;
+          maxSqDist = sqDist;
+        }
+      }
+      if (maxSqDist > sqTolerance) {
+        markers[index] = 1;
+        stack.push([index, last]);
+        stack.push([first, index]);
       }
     }
 
-    if (maxSqDist > sqTolerance) {
-      markers[index] = 1;
-
-      //TODO rewrite without recursion
-      markPointsDP(points, markers, sqTolerance, first, index);
-      markPointsDP(points, markers, sqTolerance, index, last);
-    }
   }
 
   function simplifyDouglasPeucker(points, sqTolerance) {
@@ -153,7 +164,8 @@
 
     markers[0] = markers[len - 1] = 1;
 
-    markPointsDP(points, markers, sqTolerance, 0, len - 1);
+    markPointsDP(points, markers, sqTolerance, 0, len - 1,
+        points[0].z === undefined ? squareSegmentDistance : squareSegmentDistance3D);
 
     while (++i < len) {
       if (markers[i]) {
