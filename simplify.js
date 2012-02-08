@@ -1,7 +1,7 @@
 (function(global, undefined) {
   "use strict";
 
-  var undefinedStr = 'undefined';
+  var undefinedStr = undefined + '';
 
   // modify the following 2 functions to suit your point format and/or switch to 3D points
 
