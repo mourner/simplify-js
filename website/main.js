@@ -7,7 +7,9 @@
 	var canvas = get('canvas'),
 		pointNumBefore = get('point-num-before'),
 		toleranceVal = get('tolerance-val'),
-		pointNumAfter = get('point-num-after');
+		pointNumAfter = get('point-num-after'),
+		pointNumTimes = get('point-num-times'),
+		durationEl = get('duration')
 
 	var ctx = canvas.getContext('2d');
 	ctx.translate(-200, -100);
@@ -25,11 +27,18 @@
 
 		ctx.clearRect(200, 100, 800, 400);
 
+		var newPoints,
+			start = +new Date();
+
+		newPoints = simplify(points, tolerance);
+
+		durationEl.innerHTML = +new Date() - start;
+
 		var i, len, p,
-		    newPoints = simplify(points, tolerance),
 		    newLen = newPoints.length;
 
-		pointNumAfter.innerHTML = '<em>' + newLen + '</em> points ' + ' (~<em>' + Math.round(pointsLen / newLen) + '</em> times less)';
+		pointNumAfter.innerHTML = newLen;
+		pointNumTimes.innerHTML = Math.round(pointsLen / newLen);
 		toleranceVal.innerHTML = tolerance;
 
 		ctx.beginPath();
@@ -50,7 +59,7 @@
 	fdSlider.createSlider({
 		inp: get('tolerance'),
 		step: '0.01',
-		min: 0.01,
+		min: 0.10,
 		max: 5,
 		hideInput: true,
 		callbacks: {
