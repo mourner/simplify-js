@@ -26,7 +26,7 @@
         dy = p2.y - y,
         dz = isZ && p2.z - z,
 
-        temp, temp2;
+        temp;
 
 
     if (dx !== 0 || dy !== 0 || +dz !== 0) {
@@ -60,10 +60,10 @@
     var prevPoint = points[0],
         newPoints = [prevPoint],
         len = points.length,
-        i,
+        i = 0,
         point;
 
-    for (i = 1; i < len; i += 1) {
+    while (++i < len) {
       point = points[i];
       if (squareDistance(point, prevPoint) > sqTolerance) {
         newPoints.push(point);
@@ -84,11 +84,11 @@
   function markPointsDP(points, markers, sqTolerance, first, last) {
 
     var maxSqDist = 0,
-        i,
+        i = first,
         sqDist,
         index;
 
-    for (i = first + 1; i < last; i += 1) {
+    while (++i < last) {
       sqDist = squareSegmentDistance(points[i], points[first], points[last]);
 
       if (sqDist > maxSqDist) {
@@ -98,8 +98,9 @@
     }
 
     if (maxSqDist > sqTolerance) {
-      markers[index] = 1;
+      markers[index] = true;
 
+      //TODO rewrite without recursion. Should be done by loops
       markPointsDP(points, markers, sqTolerance, first, index);
       markPointsDP(points, markers, sqTolerance, index, last);
     }
@@ -107,17 +108,17 @@
 
   function simplifyDouglasPeucker(points, sqTolerance) {
 
-    var len = points.length,
-        ArrayConstructor = typeof Uint8Array !== 'undefined' ? Uint8Array : Array,
+    var ArrayConstructor = typeof Uint8Array !== 'undefined' ? Uint8Array : Array,
         markers = new ArrayConstructor(len),
-        i,
+        len = points.length,
+        i = -1,
         newPoints = [];
 
-    markers[0] = markers[len - 1] = 1;
+    markers[0] = markers[len - 1] = true;
 
     markPointsDP(points, markers, sqTolerance, 0, len - 1);
 
-    for (i = 0; i < len; i += 1) {
+    while (++i < len) {
       if (markers[i]) {
         newPoints.push(points[i]);
       }
@@ -127,18 +128,13 @@
   }
 
 
-  var root = (typeof exports !== 'undefined' ? exports : global);
+  (typeof exports !== 'undefined' ? exports : global)
+      .simplify = function(points, tolerance) {
+    tolerance = sqr(tolerance || 1);
 
-  root.simplify = function(points, tolerance) {
-
-    tolerance = typeof tolerance !== 'undefined' ? tolerance : 1;
-
-    var sqTolerance = tolerance * tolerance;
-
-    points = simplifyRadialDist(points, sqTolerance);
-    points = simplifyDouglasPeucker(points, sqTolerance);
-
-    return points;
+    return simplifyDouglasPeucker(
+        simplifyRadialDist(points, tolerance),
+        tolerance);
   };
 
 }(this));
