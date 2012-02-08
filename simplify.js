@@ -4,35 +4,61 @@
   var undefinedStr = 'undefined';
 
   function sqr(x) {
-    return Math.pow(x, 2);
+    return x * x;
   }
 
-
-  // modify the following 2 functions to suit your point format and/or switch to 3D points
-
   function squareDistance(p1, p2) { // square distance between 2 points
-    var distance = sqr(p1.x - p2.x) + sqr(p1.y - p2.y);
 
-    return p1.z !== undefined ? distance + sqr(p1.z - p2.z) : distance;
+    return  sqr(p1.x - p2.x) + sqr(p1.y - p2.y);
+  }
+
+  function squareDistance3d(p1, p2) { // square distance between 3 points
+
+    return sqr(p1.x - p2.x) + sqr(p1.y - p2.y) + sqr(p1.z - p2.z);
   }
 
   function squareSegmentDistance(p, p1, p2) { // square distance from a point to a segment
 
-    var isZ = p.z !== undefined,
-        x = p1.x,
+    var x = p1.x,
+        y = p1.y,
+
+        dx = p2.x - x,
+        dy = p2.y - y,
+
+        temp;
+
+    if (dx !== 0 || dy !== 0) {
+      temp = ((p.x - x) * dx + (p.y - y) * dy ) /
+          (sqr(dx) + sqr(dy));
+
+      if (temp > 1) {
+        x = p2.x;
+        y = p2.y;
+
+      } else if (temp > 0) {
+        x += dx * temp;
+        y += dy * temp;
+      }
+    }
+
+    return sqr(p.x - x) + sqr(p.y - y);
+  }
+
+  function squareSegmentDistance3d(p, p1, p2) { // square distance from a point to a segment
+
+    var x = p1.x,
         y = p1.y,
         z = p1.z,
 
         dx = p2.x - x,
         dy = p2.y - y,
-        dz = isZ && p2.z - z,
+        dz = p2.z - z,
 
         temp;
 
-
-    if (dx !== 0 || dy !== 0 || +dz !== 0) {
-      temp = ((p.x - x) * dx + (p.y - y) * dy + isZ && (p.z - z) * dz) /
-          (sqr(dx) + sqr(dy) + isZ && sqr(dz));
+    if (dx !== 0 || dy !== 0 || dz !== 0) {
+      temp = ((p.x - x) * dx + (p.y - y) * dy + (p.z - z) * dz) /
+          (sqr(dx) + sqr(dy) + sqr(dz));
 
       if (temp > 1) {
         x = p2.x;
@@ -46,9 +72,7 @@
       }
     }
 
-    temp = sqr(p.x - x) + sqr(p.y - y);
-
-    return isZ ? temp + sqr(p.z - z) : temp;
+    return sqr(p.x - x) + sqr(p.y - y) + sqr(p.z - z);
   }
 
   // the rest of the code doesn't care about the point format
@@ -62,11 +86,12 @@
         newPoints = [prevPoint],
         len = points.length,
         i = 0,
-        point;
+        point,
+        squareDistanceFn = prevPoint.z === undefined ? squareDistance : squareDistance3d;
 
     while (++i < len) {
       point = points[i];
-      if (squareDistance(point, prevPoint) > sqTolerance) {
+      if (squareDistanceFn(point, prevPoint) > sqTolerance) {
         newPoints.push(point);
         prevPoint = point;
       }
@@ -87,10 +112,11 @@
     var maxSqDist = 0,
         i = first,
         sqDist,
-        index;
+        index,
+        squareSegmentDistanceFn = points[0].z === undefined ? squareSegmentDistance : squareSegmentDistance3d;
 
     while (++i < last) {
-      sqDist = squareSegmentDistance(points[i], points[first], points[last]);
+      sqDist = squareSegmentDistanceFn(points[i], points[first], points[last]);
 
       if (sqDist > maxSqDist) {
         index = i;
