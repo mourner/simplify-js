@@ -1,57 +1,56 @@
-(function(global) {
+(function(global, undefined) {
   "use strict";
+
+
+  function sqr(x) {
+    return Math.pow(x, 2);
+  }
 
 
   // modify the following 2 functions to suit your point format and/or switch to 3D points
 
-  function sqDist(p1, p2) { // square distance between 2 points
+  function squareDistance(p1, p2) { // square distance between 2 points
+    var distance = sqr(p1.x - p2.x) + sqr(p1.y - p2.y);
 
-    var dx = p1.x - p2.x,
-      // dz = p1.z - p2.z,
-        dy = p1.y - p2.y;
-
-    // return dx * dx + dy * dy + dz * dz;
-    return dx * dx + dy * dy;
+    return p1.z !== undefined ? distance + sqr(p1.z - p2.z) : distance;
   }
 
-  function sqSegDist(p, p1, p2) { // square distance from a point to a segment
+  function squareSegmentDistance(p, p1, p2) { // square distance from a point to a segment
 
-    var x = p1.x,
+    var isZ = p.z !== undefined,
+        x = p1.x,
         y = p1.y,
-      // z = p1.z,
+        z = p1.z,
 
         dx = p2.x - x,
         dy = p2.y - y,
-      // dz = p2.z - z,
+        dz = isZ && p2.z - z,
 
-        t;
+        temp, temp2;
 
-    if (dx !== 0 || dy !== 0) {
-      t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy);
-      // t = ((p.x - x) * dx + (p.y - y) * dy + (p.z - z) * dz) /
-      // 		(dx * dx + dy * dy + dz * dz);
 
-      if (t > 1) {
+    if (dx !== 0 || dy !== 0 || +dz !== 0) {
+      temp = ((p.x - x) * dx + (p.y - y) * dy + isZ && (p.z - z) * dz) /
+          (sqr(dx) + sqr(dy) + isZ && sqr(dz));
+
+      if (temp > 1) {
         x = p2.x;
         y = p2.y;
-        // z = p2.z;
+        z = p2.z;
 
-      } else if (t > 0) {
-        x += dx * t;
-        y += dy * t;
-        // z += dz * t;
+      } else if (temp > 0) {
+        x += dx * temp;
+        y += dy * temp;
+        z += dz * temp;
       }
     }
 
-    dx = p.x - x;
-    dy = p.y - y;
-    // dz = p.z - z;
+    temp = sqr(p.x - x) + sqr(p.y - y);
 
-    // return dx * dx + dy * dy + dz * dz;
-    return dx * dx + dy * dy;
+    return isZ ? temp + sqr(p.z - z) : temp;
   }
 
-  // the rest of the code doesn't care for the point format
+  // the rest of the code doesn't care about the point format
 
 
   // radial distance simplification
@@ -66,7 +65,7 @@
 
     for (i = 1; i < len; i += 1) {
       point = points[i];
-      if (sqDist(point, prevPoint) > sqTolerance) {
+      if (squareDistance(point, prevPoint) > sqTolerance) {
         newPoints.push(point);
         prevPoint = point;
       }
@@ -90,7 +89,7 @@
         index;
 
     for (i = first + 1; i < last; i += 1) {
-      sqDist = sqSegDist(points[i], points[first], points[last]);
+      sqDist = squareSegmentDistance(points[i], points[first], points[last]);
 
       if (sqDist > maxSqDist) {
         index = i;
