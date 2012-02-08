@@ -1,6 +1,7 @@
 (function(global, undefined) {
   "use strict";
 
+  var undefinedStr = 'undefined';
 
   function sqr(x) {
     return Math.pow(x, 2);
@@ -108,10 +109,10 @@
 
   function simplifyDouglasPeucker(points, sqTolerance) {
 
-    var ArrayConstructor = typeof Uint8Array !== 'undefined' ? Uint8Array : Array,
-        markers = new ArrayConstructor(len),
-        len = points.length,
+    var len = points.length,
         i = -1,
+        ArrayConstructor = typeof Uint8Array !== undefinedStr ? Uint8Array : Array,
+        markers = new ArrayConstructor(len),
         newPoints = [];
 
     markers[0] = markers[len - 1] = true;
@@ -128,7 +129,7 @@
   }
 
 
-  (typeof exports !== 'undefined' ? exports : global)
+  (typeof exports !== undefinedStr ? exports : global)
       .simplify = function(points, tolerance) {
     tolerance = sqr(tolerance || 1);
 
