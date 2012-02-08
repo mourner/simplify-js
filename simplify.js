@@ -59,7 +59,7 @@
 	function simplifyRadialDist(points, sqTolerance) {
 
 		var prevPoint = points[0],
-			newPoints = [prevPoint],
+		    newPoints = [prevPoint],
 		    len = points.length,
 		    i,
 		    point;
