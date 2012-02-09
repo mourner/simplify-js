@@ -15,7 +15,7 @@
 }
 .container {
 	width: 720px;
-	margin: 0 auto;
+	margin: 40px auto;
 	position: relative;
 	font: 14px/1.5 "Lucida Grande", Verdana, sans-serif;
 	color: #333;
@@ -37,26 +37,40 @@ p {
 .cf:after {
     clear:both;
 }
-.stats, .footer, .attribution {
+.stats, .footer, .attribution, .quality {
 	color: #666;
+}
+.footer {
+	border-top: 1px solid #ccc;
+	padding-top: 1em;
+	margin-top: 3em;
 }
 .stats em {
 	font-style: normal;
 	color: black;
 }
 code {
-	background: #f0f0f0;
-	padding: 2px 5px;
-	color: #555;
+	color: #666;
+	background: #f7f7f7;
+	border: 1px solid #ddd;
 
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+	padding: 2px 3px;
+
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+
+	font-family: Consolas, monospace;
+}
+dt {
+	color: #666;
+}
+dd {
+	margin-top: -1em;
 }
 h1 {
 	text-shadow: 5px 5px 10px #999;
 	font: bold 36px Georgia, serif;
-	margin-top: 40px;
 }
 a {
 	color: #0083CB;
@@ -67,13 +81,12 @@ a:hover {
 }
 .stats, .attribution {
 	position: absolute;
-	left: 30px;
+	left: 25px;
 	font-size: 12px;
 	line-height: 1.6;
 }
 .stats {
 	font-size: 16px;
-	left: 30px;
 	top: 200px;
 	line-height: 1.8;
 }
@@ -81,9 +94,20 @@ a:hover {
 	margin: 15px;
 }
 .attribution {
-	bottom: 10px;
+	bottom: 5px;
 	width: 500px;
 	text-shadow: 0 1px 0 white;
+}
+.quality {
+	position: absolute;
+	right: 25px;
+	top: 25px;
+	padding: 5px 10px 5px 5px;
+	border: 1px solid #ddd;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .social-buttons {

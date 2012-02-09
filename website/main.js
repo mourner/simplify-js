@@ -9,7 +9,11 @@
 		toleranceVal = get('tolerance-val'),
 		pointNumAfter = get('point-num-after'),
 		pointNumTimes = get('point-num-times'),
-		durationEl = get('duration')
+		durationEl = get('duration'),
+		qualityEl = get('quality');
+
+	var tolerance = 0.8,
+		highQuality = false;
 
 	var ctx = canvas.getContext('2d');
 	ctx.translate(-200, -100);
@@ -23,14 +27,14 @@
 
 	pointNumBefore.innerHTML = pointsLen;
 
-	function update(tolerance) {
+	function update() {
 
 		ctx.clearRect(200, 100, 800, 400);
 
 		var newPoints,
 			start = +new Date();
 
-		newPoints = simplify(points, tolerance);
+		newPoints = simplify(points, tolerance, highQuality);
 
 		durationEl.innerHTML = +new Date() - start;
 
@@ -52,8 +56,8 @@
 	}
 
 	function onSliderChange(e) {
-		var tolerance = parseFloat(e.value);
-		update(tolerance);
+		tolerance = parseFloat(e.value);
+		update();
 	}
 
 	fdSlider.createSlider({
@@ -67,5 +71,10 @@
 			create: [onSliderChange]
 		}
 	});
+
+	qualityEl.onchange = function () {
+		highQuality = qualityEl.checked;
+		update();
+	};
 
 }());
