@@ -178,11 +178,11 @@
   (typeof exports !== undefinedStr ? exports : global)
       .simplify = function(points, tolerance) {
 
-    tolerance = tolerance ? tolerance * tolerance : 1;
+    var sqTolerance = tolerance ? tolerance * tolerance : 1;
 
     return simplifyDouglasPeucker(
-        simplifyRadialDist(points, tolerance)
-        , tolerance);
+        simplifyRadialDist(points, sqTolerance)
+        , sqTolerance);
   };
 
 }(this));
