@@ -1,3 +1,9 @@
+/*
+ Copyright (c) 2012, Vladimir Agafonkin
+ Simplify.js is a high-performance polyline simplification library.
+ http://mourner.github.com/simplify-js/
+*/
+
 (function (global, undefined) {
 
 	"use strict";
