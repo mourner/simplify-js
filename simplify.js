@@ -1,4 +1,4 @@
-(function (global) {
+(function (global, undefined) {
 
 	"use strict";
 
@@ -169,7 +169,7 @@
 	function simplifyDouglasPeucker(points, sqTolerance) {
 
 		var len = points.length,
-		    ArrayConstructor = (typeof Uint8Array !== 'undefined' ? Uint8Array : Array),
+		    ArrayConstructor = (Uint8Array !== undefined ? Uint8Array : Array),
 		    markers = new ArrayConstructor(len),
 		    i,
 		    newPoints = [];
@@ -190,13 +190,16 @@
 
 	var root = (typeof exports !== 'undefined' ? exports : global);
 
-	root.simplify = function (points, tolerance) {
+	root.simplify = function (points, tolerance, highQuality) {
 
-		tolerance = (typeof tolerance !== 'undefined' ? tolerance : 1);
+		tolerance   = (tolerance   !== undefined ? tolerance   : 1);
+		highQuality = (highQuality !== undefined ? highQuality : false);
 
 		var sqTolerance = tolerance * tolerance;
 
-		points = simplifyRadialDist(points, sqTolerance);
+		if (!highQuality) {
+			points = simplifyRadialDist(points, sqTolerance);
+		}
 		points = simplifyDouglasPeucker(points, sqTolerance);
 
 		return points;
