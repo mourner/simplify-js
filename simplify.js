@@ -121,19 +121,15 @@
   function markPointsDP(points, markers, sqTolerance) {
 
     var squareSegmentDistanceFn = points[0].z === undefined ? squareSegmentDistance : squareSegmentDistance3D,
-        range,
         first,
         last,
-        stack = [
-          [0, points.length - 1]
-        ],
+        stack = [0, points.length - 1],
         maxSqDist,
         i,
         sqDist,
         index;
-    while (range = stack.pop()) {
-      first = range[0];
-      last = range[1];
+    while (last = stack.pop()) {
+      first = stack.pop();
       maxSqDist = 0;
       i = first;
       index = 0;
@@ -148,8 +144,10 @@
       }
       if (maxSqDist > sqTolerance) {
         markers[index] = 1;
-        stack.push([index, last]);
-        stack.push([first, index]);
+        stack.push(index);
+        stack.push(last);
+        stack.push(first);
+        stack.push(index);
       }
     }
 
