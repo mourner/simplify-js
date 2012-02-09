@@ -80,29 +80,42 @@
 	}
 
 
-	// simplification using optimized Douglas-Peucker algorithm
+	// simplification using optimized Douglas-Peucker algorithm with recursion elimination
 
 	function markPointsDP(points, markers, sqTolerance, first, last) {
 
-		var maxSqDist = 0,
+		var maxSqDist,
 		    i,
 		    sqDist,
-		    index;
+		    index,
+		    firstStack = [],
+		    lastStack = [];
 
-		for (i = first + 1; i < last; i += 1) {
-			sqDist = sqSegDist(points[i], points[first], points[last]);
+		while (last) {
 
-			if (sqDist > maxSqDist) {
-				index = i;
-				maxSqDist = sqDist;
+			maxSqDist = 0;
+
+			for (i = first + 1; i < last; i++) {
+				sqDist = sqSegDist(points[i], points[first], points[last]);
+
+				if (sqDist > maxSqDist) {
+					index = i;
+					maxSqDist = sqDist;
+				}
 			}
-		}
 
-		if (maxSqDist > sqTolerance) {
-			markers[index] = 1;
+			if (maxSqDist > sqTolerance) {
+				markers[index] = 1;
 
-			markPointsDP(points, markers, sqTolerance, first, index);
-			markPointsDP(points, markers, sqTolerance, index, last);
+				firstStack.push(first);
+				lastStack.push(index);
+
+				firstStack.push(index);
+				lastStack.push(last);
+			}
+
+			first = firstStack.pop();
+			last = lastStack.pop();
 		}
 	}
 
