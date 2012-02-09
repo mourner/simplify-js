@@ -1,4 +1,5 @@
-(function (global) {
+(function (global, undefined) {
+
 	"use strict";
 
 
@@ -110,7 +111,7 @@
 		    i,
 		    point;
 
-		for (i = 1; i < len; i += 1) {
+		for (i = 1; i < len; i++) {
 			point = points[i];
 			if (squareDistance(point, prevPoint) > sqTolerance) {
 				newPoints.push(point);
@@ -168,7 +169,7 @@
 	function simplifyDouglasPeucker(points, sqTolerance) {
 
 		var len = points.length,
-		    ArrayConstructor = typeof Uint8Array !== 'undefined' ? Uint8Array : Array,
+		    ArrayConstructor = (Uint8Array !== undefined ? Uint8Array : Array),
 		    markers = new ArrayConstructor(len),
 		    i,
 		    newPoints = [];
@@ -177,7 +178,7 @@
 
 		markPointsDP(points, markers, sqTolerance, 0, len - 1);
 
-		for (i = 0; i < len; i += 1) {
+		for (i = 0; i < len; i++) {
 			if (markers[i]) {
 				newPoints.push(points[i]);
 			}
@@ -189,13 +190,16 @@
 
 	var root = (typeof exports !== 'undefined' ? exports : global);
 
-	root.simplify = function (points, tolerance) {
+	root.simplify = function (points, tolerance, highQuality) {
 
-		tolerance = typeof tolerance !== 'undefined' ? tolerance : 1;
+		tolerance   = (tolerance   !== undefined ? tolerance   : 1);
+		highQuality = (highQuality !== undefined ? highQuality : false);
 
 		var sqTolerance = tolerance * tolerance;
 
-		points = simplifyRadialDist(points, sqTolerance);
+		if (!highQuality) {
+			points = simplifyRadialDist(points, sqTolerance);
+		}
 		points = simplifyDouglasPeucker(points, sqTolerance);
 
 		return points;
