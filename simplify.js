@@ -1,4 +1,5 @@
 (function (global) {
+
 	"use strict";
 
 
@@ -110,7 +111,7 @@
 		    i,
 		    point;
 
-		for (i = 1; i < len; i += 1) {
+		for (i = 1; i < len; i++) {
 			point = points[i];
 			if (squareDistance(point, prevPoint) > sqTolerance) {
 				newPoints.push(point);
@@ -177,7 +178,7 @@
 
 		markPointsDP(points, markers, sqTolerance, 0, len - 1);
 
-		for (i = 0; i < len; i += 1) {
+		for (i = 0; i < len; i++) {
 			if (markers[i]) {
 				newPoints.push(points[i]);
 			}
@@ -191,7 +192,7 @@
 
 	root.simplify = function (points, tolerance) {
 
-		tolerance = typeof tolerance !== 'undefined' ? tolerance : 1;
+		tolerance = (typeof tolerance !== 'undefined' ? tolerance : 1);
 
 		var sqTolerance = tolerance * tolerance;
 
