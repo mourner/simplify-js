@@ -100,7 +100,7 @@
         point,
         squareDistanceFn = prevPoint.z === undefined ? squareDistance : squareDistance3D;
 
-    while (++i < len) {
+    for (; i < len; i++) {
       point = points[i];
       if (squareDistanceFn(point, prevPoint) > sqTolerance) {
         newPoints.push(point);
@@ -131,10 +131,10 @@
     while (last = stack.pop()) {
       first = stack.pop();
       maxSqDist = 0;
-      i = first;
+      i = first + 1;
       index = 0;
 
-      while (++i < last) {
+      for (; i < last; i++) {
         sqDist = squareSegmentDistanceFn(points[i], points[first], points[last]);
 
         if (sqDist > maxSqDist) {
@@ -158,14 +158,14 @@
     var len = points.length,
         ArrayConstructor = typeof Uint8Array !== undefinedStr ? Uint8Array : Array,
         markers = new ArrayConstructor(len),
-        i = -1,
+        i = 0,
         newPoints = [];
 
     markers[0] = markers[len - 1] = 1;
 
     markPointsDP(points, markers, sqTolerance);
 
-    while (++i < len) {
+    for (; i < len; i++) {
       if (markers[i]) {
         newPoints.push(points[i]);
       }
