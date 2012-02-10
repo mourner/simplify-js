@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2012, Vladimir Agafonkin
- Simplify.js is a high-performance polyline simplification library.
- http://mourner.github.com/simplify-js/
+ Simplify.js is a high-performance polyline simplification library
+ mourner.github.com/simplify-js
 */
 
 (function (global, undefined) {
@@ -12,6 +12,7 @@
 	// to suit your point format, run search/replace for '.x' and '.y'
 	// to switch to 3D, uncomment the lines in the next 2 functions
 	// (configurability would draw significant performance overhead)
+
 
 	function getSquareDistance(p1, p2) { // square distance between 2 points
 
@@ -69,9 +70,7 @@
 	// the rest of the code doesn't care for the point format
 
 
-	// simplification based on distance between points
-
-	function simplifyRadialDistance(points, sqTolerance) {
+	function simplifyRadialDistance(points, sqTolerance) { // distance-based simplification
 
 		var i,
 		    len = points.length,
@@ -101,17 +100,25 @@
 	function simplifyDouglasPeucker(points, sqTolerance) {
 
 		var len = points.length,
-		    MarkerArray = (typeof Uint8Array !== undefined + '' ? Uint8Array : Array),
+
+		    MarkerArray = (typeof Uint8Array !== undefined + '')
+		                ? Uint8Array
+		                : Array,
+
 		    markers = new MarkerArray(len),
+
 		    first = 0,
-		    last = len - 1,
+		    last  = len - 1,
+
 		    i,
 		    maxSqDist,
 		    sqDist,
 		    index,
+
 		    firstStack = [],
-		    lastStack = [],
-		    newPoints = [];
+		    lastStack  = [],
+
+		    newPoints  = [];
 
 		markers[first] = markers[last] = 1;
 
@@ -152,11 +159,16 @@
 	}
 
 
-	var root = (typeof exports !== undefined + '' ? exports : global);
+	var root = (typeof exports !== undefined + '')
+	         ? exports
+	         : global;
+
 
 	root.simplify = function (points, tolerance, highestQuality) {
 
-		var sqTolerance = (tolerance !== undefined ? tolerance * tolerance : 1);
+		var sqTolerance = (tolerance !== undefined)
+		                ? tolerance * tolerance
+		                : 1;
 
 		if (!highestQuality) {
 			points = simplifyRadialDistance(points, sqTolerance);
