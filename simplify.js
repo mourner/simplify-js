@@ -139,12 +139,12 @@
 	function simplifyDouglasPeucker(points, sqTolerance) {
 
 		var len = points.length,
-			MarkerArray = (typeof Uint8Array !== undefined + '' ? Uint8Array : Array),
+		    MarkerArray = (typeof Uint8Array !== undefined + '' ? Uint8Array : Array),
 		    markers = new MarkerArray(len),
-			first = 0,
-			last = len - 1,
+		    first = 0,
+		    last = len - 1,
 		    i,
-			maxSqDist,
+		    maxSqDist,
 		    sqDist,
 		    index,
 		    firstStack = [],
