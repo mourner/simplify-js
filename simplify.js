@@ -12,7 +12,7 @@
 	// run search/replace for '.x' and '.y' to suit your point format
 	// (its configurability would draw significant performance overhead)
 
-	function squareDistance(p1, p2) { // square distance between 2 points
+	function getSquareDistance(p1, p2) { // square distance between 2 points
 
 		var dx = p1.x - p2.x,
 		    dy = p1.y - p2.y;
@@ -20,7 +20,7 @@
 		return dx * dx + dy * dy;
 	}
 
-	function squareSegmentDistance(p, p1, p2) { // square distance from a point to a segment
+	function getSquareSegmentDistance(p, p1, p2) { // square distance from a point to a segment
 
 		var x = p1.x,
 		    y = p1.y,
@@ -56,7 +56,7 @@
 	// replace previous functions with the following for 3D space
 
 	/*
-	function squareDistance(p1, p2) {
+	function getSquareDistance(p1, p2) {
 
 		var dx = p1.x - p2.x,
 		    dy = p1.y - p2.y,
@@ -65,7 +65,7 @@
 		return dx * dx + dy * dy + dz * dz;
 	}
 
-	function squareSegmentDistance(p, p1, p2) {
+	function getSquareSegmentDistance(p, p1, p2) {
 
 		var x = p1.x,
 		    y = p1.y,
@@ -109,17 +109,19 @@
 
 	// radial distance simplification
 
-	function simplifyRadialDist(points, sqTolerance) {
+	function simplifyRadialDistance(points, sqTolerance) {
 
-		var prevPoint = points[0],
-		    newPoints = [prevPoint],
+		var i,
 		    len = points.length,
-		    i,
-		    point;
+		    point,
+		    getDistance = getSquareDistance,
+		    prevPoint = points[0],
+		    newPoints = [prevPoint];
 
 		for (i = 1; i < len; i++) {
 			point = points[i];
-			if (squareDistance(point, prevPoint) > sqTolerance) {
+
+			if (getDistance(point, prevPoint) > sqTolerance) {
 				newPoints.push(point);
 				prevPoint = point;
 			}
@@ -135,11 +137,12 @@
 
 	// simplification using optimized Douglas-Peucker algorithm with recursion elimination
 
-	function markPointsDP(points, markers, sqTolerance, first, last) {
+	function markPointsDouglasPeucker(points, markers, sqTolerance, first, last) {
 
 		var maxSqDist,
 		    i,
 		    squareDistance,
+		    getDistance = getSquareSegmentDistance,
 		    index,
 		    firstStack = [],
 		    lastStack = [];
@@ -149,7 +152,7 @@
 			maxSqDist = 0;
 
 			for (i = first + 1; i < last; i++) {
-				squareDistance = squareSegmentDistance(points[i], points[first], points[last]);
+				squareDistance = getDistance(points[i], points[first], points[last]);
 
 				if (squareDistance > maxSqDist) {
 					index = i;
@@ -182,7 +185,7 @@
 
 		markers[0] = markers[len - 1] = 1;
 
-		markPointsDP(points, markers, sqTolerance, 0, len - 1);
+		markPointsDouglasPeucker(points, markers, sqTolerance, 0, len - 1);
 
 		for (i = 0; i < len; i++) {
 			if (markers[i]) {
@@ -204,7 +207,7 @@
 		var sqTolerance = tolerance * tolerance;
 
 		if (!highQuality) {
-			points = simplifyRadialDist(points, sqTolerance);
+			points = simplifyRadialDistance(points, sqTolerance);
 		}
 		points = simplifyDouglasPeucker(points, sqTolerance);
 
