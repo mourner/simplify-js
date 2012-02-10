@@ -16,7 +16,7 @@
 	function getSquareDistance(p1, p2) { // square distance between 2 points
 
 		var dx = p1.x - p2.x,
-	//		dz = p1.z - p2.z,
+	//	    dz = p1.z - p2.z,
 		    dy = p1.y - p2.y;
 
 		return dx * dx +
