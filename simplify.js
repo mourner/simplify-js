@@ -107,7 +107,7 @@
 	// the rest of the code doesn't care for the point format
 
 
-	// radial distance simplification
+	// simplification based on distance between points
 
 	function simplifyRadialDistance(points, sqTolerance) {
 
@@ -136,27 +136,33 @@
 
 	// simplification using optimized Douglas-Peucker algorithm with recursion elimination
 
-	function markPointsDouglasPeucker(points, markers, sqTolerance) {
+	function simplifyDouglasPeucker(points, sqTolerance) {
 
-		var first = 0,
-			last = points.length - 1,
-			maxSqDist,
+		var len = points.length,
+			MarkerArray = (typeof Uint8Array !== undefined + '' ? Uint8Array : Array),
+		    markers = new MarkerArray(len),
+			first = 0,
+			last = len - 1,
 		    i,
-		    squareDistance,
+			maxSqDist,
+		    sqDist,
 		    index,
 		    firstStack = [],
-		    lastStack = [];
+		    lastStack = [],
+		    newPoints = [];
+
+		markers[first] = markers[last] = 1;
 
 		while (last) {
 
 			maxSqDist = 0;
 
 			for (i = first + 1; i < last; i++) {
-				squareDistance = getSquareSegmentDistance(points[i], points[first], points[last]);
+				sqDist = getSquareSegmentDistance(points[i], points[first], points[last]);
 
-				if (squareDistance > maxSqDist) {
+				if (sqDist > maxSqDist) {
 					index = i;
-					maxSqDist = squareDistance;
+					maxSqDist = sqDist;
 				}
 			}
 
@@ -173,19 +179,6 @@
 			first = firstStack.pop();
 			last = lastStack.pop();
 		}
-	}
-
-	function simplifyDouglasPeucker(points, sqTolerance) {
-
-		var len = points.length,
-		    ArrayConstructor = (typeof Uint8Array !== undefined + '' ? Uint8Array : Array),
-		    markers = new ArrayConstructor(len),
-		    i,
-		    newPoints = [];
-
-		markers[0] = markers[len - 1] = 1;
-
-		markPointsDouglasPeucker(points, markers, sqTolerance);
 
 		for (i = 0; i < len; i++) {
 			if (markers[i]) {
@@ -199,14 +192,11 @@
 
 	var root = (typeof exports !== undefined + '' ? exports : global);
 
-	root.simplify = function (points, tolerance, highQuality) {
+	root.simplify = function (points, tolerance, highestQuality) {
 
-		tolerance   = (tolerance   !== undefined ? tolerance   : 1);
-		highQuality = (highQuality !== undefined ? highQuality : false);
+		var sqTolerance = (tolerance !== undefined ? tolerance * tolerance : 1);
 
-		var sqTolerance = tolerance * tolerance;
-
-		if (!highQuality) {
+		if (!highestQuality) {
 			points = simplifyRadialDistance(points, sqTolerance);
 		}
 		points = simplifyDouglasPeucker(points, sqTolerance);
