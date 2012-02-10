@@ -114,14 +114,13 @@
 		var i,
 		    len = points.length,
 		    point,
-		    getDistance = getSquareDistance,
 		    prevPoint = points[0],
 		    newPoints = [prevPoint];
 
 		for (i = 1; i < len; i++) {
 			point = points[i];
 
-			if (getDistance(point, prevPoint) > sqTolerance) {
+			if (getSquareDistance(point, prevPoint) > sqTolerance) {
 				newPoints.push(point);
 				prevPoint = point;
 			}
@@ -137,12 +136,13 @@
 
 	// simplification using optimized Douglas-Peucker algorithm with recursion elimination
 
-	function markPointsDouglasPeucker(points, markers, sqTolerance, first, last) {
+	function markPointsDouglasPeucker(points, markers, sqTolerance) {
 
-		var maxSqDist,
+		var first = 0,
+			last = points.length - 1,
+			maxSqDist,
 		    i,
 		    squareDistance,
-		    getDistance = getSquareSegmentDistance,
 		    index,
 		    firstStack = [],
 		    lastStack = [];
@@ -152,7 +152,7 @@
 			maxSqDist = 0;
 
 			for (i = first + 1; i < last; i++) {
-				squareDistance = getDistance(points[i], points[first], points[last]);
+				squareDistance = getSquareSegmentDistance(points[i], points[first], points[last]);
 
 				if (squareDistance > maxSqDist) {
 					index = i;
@@ -185,7 +185,7 @@
 
 		markers[0] = markers[len - 1] = 1;
 
-		markPointsDouglasPeucker(points, markers, sqTolerance, 0, len - 1);
+		markPointsDouglasPeucker(points, markers, sqTolerance);
 
 		for (i = 0; i < len; i++) {
 			if (markers[i]) {
