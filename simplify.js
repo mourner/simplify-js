@@ -175,7 +175,7 @@
 	function simplifyDouglasPeucker(points, sqTolerance) {
 
 		var len = points.length,
-		    ArrayConstructor = (Uint8Array !== undefined ? Uint8Array : Array),
+		    ArrayConstructor = (typeof Uint8Array !== undefined + '' ? Uint8Array : Array),
 		    markers = new ArrayConstructor(len),
 		    i,
 		    newPoints = [];
@@ -194,7 +194,7 @@
 	}
 
 
-	var root = (typeof exports !== 'undefined' ? exports : global);
+	var root = (typeof exports !== undefined + '' ? exports : global);
 
 	root.simplify = function (points, tolerance, highQuality) {
 
