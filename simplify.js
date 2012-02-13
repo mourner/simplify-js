@@ -156,8 +156,8 @@
 
     var sqTolerance = tolerance ? tolerance * tolerance : 1;
 
-    return simplifyDouglasPeucker(//              Converts highQuality to 1 or 2
-        simplifyRadialDist(points, sqTolerance / (!highQuality + 1))
+    return simplifyDouglasPeucker(
+        highQuality ? points : simplifyRadialDist(points, sqTolerance)
         , sqTolerance);
   };
 
