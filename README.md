@@ -8,3 +8,4 @@ Docs and demo: http://mourner.github.io/simplify-js/
  * PHP port: https://github.com/AKeN/simplify-php (by Rotari Gheorghe)
  * Java: https://github.com/ekeneijeoma/simplify-java (by Ekene Ijeoma)
  * Processing: https://github.com/ekeneijeoma/simplify-processing (by Ekene Ijeoma)
+ * AS3: https://github.com/fnicollet/simplify-as3 (by Fabien Nicollet)
