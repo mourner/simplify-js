@@ -1,7 +1,7 @@
 /*
- Copyright (c) 2012, Vladimir Agafonkin
- Simplify.js is a high-performance polyline simplification library
- mourner.github.com/simplify-js
+ Copyright (c) 2013, Vladimir Agafonkin
+ Simplify.js is a high-performance JS polyline simplification library
+ mourner.github.io/simplify-js
 */
 
 (function (global, undefined) {
@@ -9,7 +9,7 @@
 	"use strict";
 
 
-	// to suit your point format, run search/replace for '.x' and '.y'
+	// to suit your point format, run search/replace for '.x' and '.y';
 	// to switch to 3D, uncomment the lines in the next 2 functions
 	// (configurability would draw significant performance overhead)
 
@@ -70,7 +70,9 @@
 	// the rest of the code doesn't care for the point format
 
 
-	function simplifyRadialDistance(points, sqTolerance) { // distance-based simplification
+	// basic distance-based simplification
+
+	function simplifyRadialDistance(points, sqTolerance) {
 
 		var i,
 		    len = points.length,
@@ -163,6 +165,7 @@
 	         ? exports
 	         : global;
 
+	// both algorithms combined for awesome performance
 
 	root.simplify = function (points, tolerance, highestQuality) {
 
