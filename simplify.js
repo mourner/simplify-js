@@ -169,13 +169,9 @@
 
 	root.simplify = function (points, tolerance, highestQuality) {
 
-		var sqTolerance = (tolerance !== undefined)
-		                ? tolerance * tolerance
-		                : 1;
+		var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
-		if (!highestQuality) {
-			points = simplifyRadialDistance(points, sqTolerance);
-		}
+		points = highestQuality ? points : simplifyRadialDistance(points, sqTolerance);
 		points = simplifyDouglasPeucker(points, sqTolerance);
 
 		return points;
