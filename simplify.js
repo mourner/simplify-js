@@ -161,13 +161,9 @@
 	}
 
 
-	var root = (typeof exports !== undefined + '')
-	         ? exports
-	         : global;
-
 	// both algorithms combined for awesome performance
 
-	root.simplify = function (points, tolerance, highestQuality) {
+	function simplify(points, tolerance, highestQuality) {
 
 		var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
@@ -176,5 +172,20 @@
 
 		return points;
 	};
+
+
+	// export either as a Node.js module, AMD module or a global browser variable
+
+	if (typeof exports === 'object') {
+		module.exports = simplify;
+
+	} else if (typeof define === 'function' && define.amd) {
+		define(function () {
+			return simplify;
+		});
+
+	} else {
+		global.simplify = simplify;
+	}
 
 }(this));
