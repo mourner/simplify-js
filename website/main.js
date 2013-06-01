@@ -32,11 +32,13 @@
 		ctx.clearRect(200, 100, 800, 400);
 
 		var newPoints,
-			start = +new Date();
+			start = typeof performance !== 'undefined' ? performance.now() : +new Date();
 
 		newPoints = simplify(points, tolerance, highQuality);
 
-		durationEl.innerHTML = +new Date() - start;
+		var ms = (typeof performance !== 'undefined' ? performance.now() : +new Date()) - start;
+
+		durationEl.innerHTML = Math.round(ms * 100) / 100;
 
 		var i, len, p,
 		    newLen = newPoints.length;
