@@ -10,3 +10,4 @@ Docs and demo: http://mourner.github.io/simplify-js/
  * Java: [hgoebl / simplify-java](https://github.com/hgoebl/simplify-java) (by Heinrich Göbl)
  * Processing: [ekeneijeoma / simplify-processing](https://github.com/ekeneijeoma/simplify-processing) (by Ekene Ijeoma)
  * AS3: [fnicollet / simplify-as3](https://github.com/fnicollet/simplify-as3) (by Fabien Nicollet)
+ * Rust: [calvinmetcalf / simplify-rs](https://github.com/calvinmetcalf/simplify-rs) (by Calvin Metcalf)
