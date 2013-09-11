@@ -109,24 +109,22 @@
 
 		    markers = new MarkerArray(len),
 
-		    current = {},
+		    current,
 
 		    i,
 		    maxSqDist,
 		    sqDist,
 		    index,
 
-		    stack = [],
+		    stack = [{first:0,last:len-1}],
+		    stackLen = 1,
 
 		    newPoints  = [];
 
-		current.first = 0;
-		current.last  = len - 1;
+		markers[0] = markers[len-1] = 1;
 
-		markers[current.first] = markers[current.last] = 1;
-
-		while (current) {
-
+		while (stackLen) {
+			current = stack[--stackLen];
 			maxSqDist = 0;
 
 			for (i = current.first + 1; i < current.last; i++) {
@@ -140,24 +138,21 @@
 
 			if (maxSqDist > sqTolerance) {
 				markers[index] = 1;
-
-				stack.push({
+				stack[stackLen++] = {
 					first : current.first,
 					last : index
-				});
+				};
 
-				stack.push({
+				stack[stackLen++] = {
 					first : index,
 					last : current.last
-				});
+				};
 			}
-
-			current = stack.pop();
 		}
 
-		for (i = 0; i < len; i++) {
+		for (i = 0,index=0; i < len; i++) {
 			if (markers[i]) {
-				newPoints.push(points[i]);
+				newPoints[index++] = points[i];
 			}
 		}
 
