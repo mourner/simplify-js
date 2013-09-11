@@ -109,27 +109,26 @@
 
 		    markers = new MarkerArray(len),
 
-		    first = 0,
-		    last  = len - 1,
+		    current,
 
 		    i,
 		    maxSqDist,
 		    sqDist,
 		    index,
 
-		    firstStack = [],
-		    lastStack  = [],
+		    stack = [{first:0,last:len-1}],
+		    stackLen = 1,
 
 		    newPoints  = [];
 
-		markers[first] = markers[last] = 1;
+		markers[0] = markers[len-1] = 1;
 
-		while (last) {
-
+		while (stackLen) {
+			current = stack[--stackLen];
 			maxSqDist = 0;
 
-			for (i = first + 1; i < last; i++) {
-				sqDist = getSquareSegmentDistance(points[i], points[first], points[last]);
+			for (i = current.first + 1; i < current.last; i++) {
+				sqDist = getSquareSegmentDistance(points[i], points[current.first], points[current.last]);
 
 				if (sqDist > maxSqDist) {
 					index = i;
@@ -139,21 +138,21 @@
 
 			if (maxSqDist > sqTolerance) {
 				markers[index] = 1;
+				stack[stackLen++] = {
+					first : current.first,
+					last : index
+				};
 
-				firstStack.push(first);
-				lastStack.push(index);
-
-				firstStack.push(index);
-				lastStack.push(last);
+				stack[stackLen++] = {
+					first : index,
+					last : current.last
+				};
 			}
-
-			first = firstStack.pop();
-			last = lastStack.pop();
 		}
 
-		for (i = 0; i < len; i++) {
+		for (i = 0,index=0; i < len; i++) {
 			if (markers[i]) {
-				newPoints.push(points[i]);
+				newPoints[index++] = points[i];
 			}
 		}
 
