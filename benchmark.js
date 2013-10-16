@@ -12,7 +12,7 @@ suite
     oneStack(points, 0.8);
 })
 .add('one stack calvin', function () {
-    oneStack(points, 0.8);
+    oneStackCalvin(points, 0.8);
 })
 // add listeners
 .on('cycle', function(event) {
