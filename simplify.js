@@ -10,7 +10,7 @@
 // for 3D version, see 3d branch (configurability would draw significant performance overhead)
 
 // square distance between 2 points
-function getSquareDistance(p1, p2) {
+function sqDist(p1, p2) {
 
     var dx = p1.x - p2.x,
         dy = p1.y - p2.y;
@@ -19,7 +19,7 @@ function getSquareDistance(p1, p2) {
 }
 
 // square distance from a point to a segment
-function getSquareSegmentDistance(p, p1, p2) {
+function sqSegDist(p, p1, p2) {
 
     var x = p1.x,
         y = p1.y,
@@ -45,10 +45,10 @@ function getSquareSegmentDistance(p, p1, p2) {
 
     return dx * dx + dy * dy;
 }
-// the rest of the code doesn't care for the point format
+// rest of the code doesn't care about point format
 
 // basic distance-based simplification
-function simplifyRadialDistance(points, sqTolerance) {
+function simplifyRadialDist(points, sqTolerance) {
 
     var prevPoint = points[0],
         newPoints = [prevPoint],
@@ -57,7 +57,7 @@ function simplifyRadialDistance(points, sqTolerance) {
     for (var i = 1, len = points.length; i < len; i++) {
         point = points[i];
 
-        if (getSquareDistance(point, prevPoint) > sqTolerance) {
+        if (sqDist(point, prevPoint) > sqTolerance) {
             newPoints.push(point);
             prevPoint = point;
         }
@@ -76,13 +76,10 @@ function simplifyDouglasPeucker(points, sqTolerance) {
     var len = points.length,
         MarkerArray = typeof Uint8Array !== 'undefined' ? Uint8Array : Array,
         markers = new MarkerArray(len),
-
         first = 0,
         last = len - 1,
-
         stack = [],
         newPoints = [],
-
         i, maxSqDist, sqDist, index;
 
     markers[first] = markers[last] = 1;
@@ -92,7 +89,7 @@ function simplifyDouglasPeucker(points, sqTolerance) {
         maxSqDist = 0;
 
         for (i = first + 1; i < last; i++) {
-            sqDist = getSquareSegmentDistance(points[i], points[first], points[last]);
+            sqDist = sqSegDist(points[i], points[first], points[last]);
 
             if (sqDist > maxSqDist) {
                 index = i;
@@ -123,20 +120,18 @@ function simplify(points, tolerance, highestQuality) {
 
     var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
-    points = highestQuality ? points : simplifyRadialDistance(points, sqTolerance);
+    points = highestQuality ? points : simplifyRadialDist(points, sqTolerance);
     points = simplifyDouglasPeucker(points, sqTolerance);
 
     return points;
 }
 
-// export as a Node module, an AMD module or a global browser variable
+// export as Node module / AMD module / browser variable
 if (typeof module !== 'undefined') {
     module.exports = simplify;
 
 } else if (typeof define === 'function' && define.amd) {
-    define(function() {
-        return simplify;
-    });
+    define(function() { return simplify; });
 
 } else {
     window.simplify = simplify;
