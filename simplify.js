@@ -10,7 +10,7 @@
 // for 3D version, see 3d branch (configurability would draw significant performance overhead)
 
 // square distance between 2 points
-function sqDist(p1, p2) {
+function getSqDist(p1, p2) {
 
     var dx = p1.x - p2.x,
         dy = p1.y - p2.y;
@@ -19,7 +19,7 @@ function sqDist(p1, p2) {
 }
 
 // square distance from a point to a segment
-function sqSegDist(p, p1, p2) {
+function getSqSegDist(p, p1, p2) {
 
     var x = p1.x,
         y = p1.y,
@@ -57,7 +57,7 @@ function simplifyRadialDist(points, sqTolerance) {
     for (var i = 1, len = points.length; i < len; i++) {
         point = points[i];
 
-        if (sqDist(point, prevPoint) > sqTolerance) {
+        if (getSqDist(point, prevPoint) > sqTolerance) {
             newPoints.push(point);
             prevPoint = point;
         }
@@ -89,7 +89,7 @@ function simplifyDouglasPeucker(points, sqTolerance) {
         maxSqDist = 0;
 
         for (i = first + 1; i < last; i++) {
-            sqDist = sqSegDist(points[i], points[first], points[last]);
+            sqDist = getSqSegDist(points[i], points[first], points[last]);
 
             if (sqDist > maxSqDist) {
                 index = i;
