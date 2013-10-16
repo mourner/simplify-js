@@ -8,6 +8,12 @@ suite
 .add('original', function () {
     original(points, 0.8);
 })
+.add('one stack', function () {
+    oneStack(points, 0.8);
+})
+.add('one stack calvin', function () {
+    oneStack(points, 0.8);
+})
 // add listeners
 .on('cycle', function(event) {
     console.log(String(event.target));
@@ -66,6 +72,151 @@ function original(points, sqTolerance) {
     for (i = 0; i < len; i++) {
         if (markers[i]) {
             newPoints.push(points[i]);
+        }
+    }
+
+    return newPoints;
+}
+
+function oneStack(points, sqTolerance) {
+
+    var len = points.length,
+        MarkerArray = (typeof Uint8Array !== undefined + '') ? Uint8Array : Array,
+        markers = new MarkerArray(len),
+
+        first = 0,
+        last = len - 1,
+
+        stack = [],
+        newPoints = [],
+
+        i, maxSqDist, sqDist, index;
+
+    markers[first] = markers[last] = 1;
+
+    while (last) {
+
+        maxSqDist = 0;
+
+        for (i = first + 1; i < last; i++) {
+            sqDist = getSquareSegmentDistance(points[i], points[first], points[last]);
+
+            if (sqDist > maxSqDist) {
+                index = i;
+                maxSqDist = sqDist;
+            }
+        }
+
+        if (maxSqDist > sqTolerance) {
+            markers[index] = 1;
+            stack.push(first, index, index, last);
+        }
+
+        last = stack.pop();
+        first = stack.pop();
+    }
+
+    for (i = 0; i < len; i++) {
+        if (markers[i]) {
+            newPoints.push(points[i]);
+        }
+    }
+
+    return newPoints;
+}
+
+function oneStack(points, sqTolerance) {
+
+    var len = points.length,
+        MarkerArray = (typeof Uint8Array !== undefined + '') ? Uint8Array : Array,
+        markers = new MarkerArray(len),
+
+        first = 0,
+        last = len - 1,
+
+        stack = [],
+        newPoints = [],
+
+        i, maxSqDist, sqDist, index;
+
+    markers[first] = markers[last] = 1;
+
+    while (last) {
+
+        maxSqDist = 0;
+
+        for (i = first + 1; i < last; i++) {
+            sqDist = getSquareSegmentDistance(points[i], points[first], points[last]);
+
+            if (sqDist > maxSqDist) {
+                index = i;
+                maxSqDist = sqDist;
+            }
+        }
+
+        if (maxSqDist > sqTolerance) {
+            markers[index] = 1;
+            stack.push(first, index, index, last);
+        }
+
+        last = stack.pop();
+        first = stack.pop();
+    }
+
+    for (i = 0; i < len; i++) {
+        if (markers[i]) {
+            newPoints.push(points[i]);
+        }
+    }
+
+    return newPoints;
+}
+
+
+function oneStackCalvin(points, sqTolerance) {
+
+    var len = points.length,
+        MarkerArray = (typeof Uint8Array !== undefined + '') ? Uint8Array : Array,
+        markers = new MarkerArray(len),
+
+        current, i, maxSqDist, sqDist, index,
+
+        stack = [{first:0,last:len-1}],
+        stackLen = 1,
+        newPoints  = [];
+
+    markers[0] = markers[len-1] = 1;
+
+    while (stackLen) {
+        current = stack[--stackLen];
+        maxSqDist = 0;
+
+        for (i = current.first + 1; i < current.last; i++) {
+            sqDist = getSquareSegmentDistance(points[i], points[current.first], points[current.last]);
+
+            if (sqDist > maxSqDist) {
+                index = i;
+                maxSqDist = sqDist;
+            }
+        }
+
+        if (maxSqDist > sqTolerance) {
+            markers[index] = 1;
+            stack[stackLen++] = {
+                first : current.first,
+                last : index
+            };
+
+            stack[stackLen++] = {
+                first : index,
+                last : current.last
+            };
+        }
+    }
+
+    for (i = 0,index=0; i < len; i++) {
+        if (markers[i]) {
+            newPoints[index++] = points[i];
         }
     }
 
