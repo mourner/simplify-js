@@ -126,13 +126,13 @@ function simplify(points, tolerance, highestQuality) {
     return points;
 }
 
-// export as Node module / AMD module / browser variable
-if (typeof module !== 'undefined') {
+// export as AMD module / Node module / browser variable
+if (typeof define === 'function' && define.amd) {
+    define(function() {
+        return simplify;
+    });
+} else if (typeof module !== 'undefined') {
     module.exports = simplify;
-
-} else if (typeof define === 'function' && define.amd) {
-    define(function() { return simplify; });
-
 } else {
     window.simplify = simplify;
 }
