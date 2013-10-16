@@ -6,16 +6,17 @@
 
 (function () { 'use strict';
 
-// to suit your point format, run search/replace for '.x' and '.y';
-// for 3D version, see 3d branch (configurability would draw significant performance overhead)
+// to suit your point format, run search/replace for '.x', '.y' and '.z';
+// (configurability would draw significant performance overhead)
 
 // square distance between 2 points
 function getSqDist(p1, p2) {
 
     var dx = p1.x - p2.x,
-        dy = p1.y - p2.y;
+        dy = p1.y - p2.y,
+        dz = p1.z - p2.z;
 
-    return dx * dx + dy * dy;
+    return dx * dx + dy * dy + dz * dz;
 }
 
 // square distance from a point to a segment
@@ -23,27 +24,34 @@ function getSqSegDist(p, p1, p2) {
 
     var x = p1.x,
         y = p1.y,
+        z = p1.z,
+
         dx = p2.x - x,
-        dy = p2.y - y;
+        dy = p2.y - y,
+        dz = p2.z - z;
 
-    if (dx !== 0 || dy !== 0) {
+    if (dx !== 0 || dy !== 0 || dz !== 0) {
 
-        var t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy);
+        var t = ((p.x - x) * dx + (p.y - y) * dy + (p.z - z) * dz) /
+                (dx * dx + dy * dy + dz * dz);
 
         if (t > 1) {
             x = p2.x;
             y = p2.y;
+            z = p2.z;
 
         } else if (t > 0) {
             x += dx * t;
             y += dy * t;
+            z += dz * t;
         }
     }
 
     dx = p.x - x;
     dy = p.y - y;
+    dz = p.z - z;
 
-    return dx * dx + dy * dy;
+    return dx * dx + dy * dy + dz * dz;
 }
 // rest of the code doesn't care about point format
 
