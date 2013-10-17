@@ -1,6 +1,6 @@
-Simplify.js is a high-performance JavaScript 2D/3D polyline simplification library by Vladimir Agafonkin, extracted from [Leaflet](http://leafletjs.com).
+Simplify.js is a high-performance JavaScript polyline simplification library by Vladimir Agafonkin, extracted from [Leaflet](http://leafletjs.com).
 
-Docs and demo: http://mourner.github.io/simplify-js/
+Checkout the demo with docs: http://mourner.github.io/simplify-js/
 
 #### Ports
 
