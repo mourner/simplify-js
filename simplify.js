@@ -48,30 +48,35 @@ function getSqSegDist(p, p1, p2) {
 // rest of the code doesn't care about point format
 
 // basic distance-based simplification
-function simplifyRadialDist(points, sqTolerance) {
+function simplifyRadialDist(points, sqTolerance, outPoints) {
 
-    var prevPoint = points[0],
-        newPoints = [prevPoint],
+    outPoints = outPoints || [points[0]];
+
+    var j = 1,
+        prevPoint = points[0],
         point;
 
     for (var i = 1, len = points.length; i < len; i++) {
         point = points[i];
 
         if (getSqDist(point, prevPoint) > sqTolerance) {
-            newPoints.push(point);
+            outPoints[j++] = point;
             prevPoint = point;
         }
     }
 
     if (prevPoint !== point) {
-        newPoints.push(point);
+        outPoints[j++] = point;
     }
 
-    return newPoints;
+    outPoints.length = j;
+
+    return outPoints;
+
 }
 
 // simplification using optimized Douglas-Peucker algorithm with recursion elimination
-function simplifyDouglasPeucker(points, sqTolerance) {
+function simplifyDouglasPeucker(points, sqTolerance, outPoints) {
 
     var len = points.length,
         MarkerArray = typeof Uint8Array !== 'undefined' ? Uint8Array : Array,
@@ -79,7 +84,6 @@ function simplifyDouglasPeucker(points, sqTolerance) {
         first = 0,
         last = len - 1,
         stack = [],
-        newPoints = [],
         i, maxSqDist, sqDist, index;
 
     markers[first] = markers[last] = 1;
@@ -99,31 +103,45 @@ function simplifyDouglasPeucker(points, sqTolerance) {
 
         if (maxSqDist > sqTolerance) {
             markers[index] = 1;
-            stack.push(first, index, index, last);
+            stack.push(first, index);
+            first = index;
+        } else {
+            last = stack.pop();
+            first = stack.pop();
         }
 
-        last = stack.pop();
-        first = stack.pop();
     }
 
-    for (i = 0; i < len; i++) {
-        if (markers[i]) {
-            newPoints.push(points[i]);
+    if (outPoints) {
+        var j = 0;
+        for (i = 0; i < len; i++) {
+            if (markers[i]) {
+                outPoints[j++] = points[i];
+            }
         }
+        outPoints.length = j;
+        return outPoints;
+    } else {
+        var newPoints = [];
+        for (i = 0; i < len; i++) {
+            if (markers[i]) {
+                newPoints.push(points[i]);
+            }
+        }
+        return newPoints;
     }
 
-    return newPoints;
 }
 
 // both algorithms combined for awesome performance
-function simplify(points, tolerance, highestQuality) {
+function simplify(points, tolerance, highestQuality, outPoints) {
 
     var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
-    points = highestQuality ? points : simplifyRadialDist(points, sqTolerance);
-    points = simplifyDouglasPeucker(points, sqTolerance);
+    points = highestQuality ? points : simplifyRadialDist(points, sqTolerance, outPoints);
+    outPoints = simplifyDouglasPeucker(points, sqTolerance, outPoints);
 
-    return points;
+    return outPoints;
 }
 
 // export as AMD module / Node module / browser variable

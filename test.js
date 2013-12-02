@@ -38,6 +38,18 @@ var simplified = [
     {"x":866.36,"y":480.77}
 ];
 
+var simplifiedHighQuality = [
+    {"x":224.55,"y":250.15},{"x":267.76,"y":213.81},{"x":296.91,"y":155.64},{"x":330.33,"y":137.57},
+    {"x":409.52,"y":141.14},{"x":439.60,"y":119.74},{"x":486.51,"y":106.75},{"x":529.57,"y":127.86},
+    {"x":539.27,"y":147.24},{"x":617.74,"y":159.86},{"x":629.55,"y":194.60},{"x":671.55,"y":222.55},
+    {"x":727.81,"y":213.36},{"x":739.94,"y":204.77},{"x":769.98,"y":208.42},{"x":784.20,"y":218.16},
+    {"x":800.24,"y":214.62},{"x":820.77,"y":236.17},{"x":859.88,"y":255.49},{"x":865.21,"y":268.53},
+    {"x":857.95,"y":280.30},{"x":867.79,"y":306.17},{"x":858.29,"y":314.94},{"x":854.54,"y":335.40},
+    {"x":860.92,"y":343.00},{"x":849.84,"y":359.59},{"x":854.56,"y":365.53},{"x":844.09,"y":371.89},
+    {"x":839.57,"y":390.40},{"x":848.40,"y":407.55},{"x":839.51,"y":432.76},{"x":853.97,"y":471.15},
+    {"x":866.36,"y":480.77}
+];
+
 var simplify = require('./simplify'),
 	assert = require('assert');
 
@@ -46,5 +58,25 @@ describe('simplify', function () {
 		var result = simplify(points, 5);
 		assert.deepEqual(result, simplified);
 	});
+	it('should simplify points correctly with the given tolerance with high quality', function () {
+		var result = simplify(points, 5, true);
+		assert.deepEqual(result, simplifiedHighQuality);
+	});
+	it('should simplify differently with high quality', function() {
+		var result = simplify(points, 5);
+		var highQualityResult = simplify(points, 5, true);
+		assert.notDeepEqual(result, highQualityResult);
+	});
+	it('should permit in-place simplification', function() {
+		var pointsClone = points.slice();
+		var result = simplify(pointsClone, 5, false, pointsClone);
+		assert.deepEqual(result, simplified);
+		assert.strictEqual(result, pointsClone);
+	});
+	it('should permit high quality in-place simplification', function() {
+		var pointsClone = points.slice();
+		var result = simplify(pointsClone, 5, true, pointsClone);
+		assert.deepEqual(result, simplifiedHighQuality);
+		assert.strictEqual(result, pointsClone);
+	});
 });
-
