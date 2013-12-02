@@ -99,11 +99,13 @@ function simplifyDouglasPeucker(points, sqTolerance) {
 
         if (maxSqDist > sqTolerance) {
             markers[index] = 1;
-            stack.push(first, index, index, last);
+            stack.push(first, index);
+            first = index;
+        } else {
+            last = stack.pop();
+            first = stack.pop();
         }
 
-        last = stack.pop();
-        first = stack.pop();
     }
 
     for (i = 0; i < len; i++) {
