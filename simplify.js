@@ -48,26 +48,31 @@ function getSqSegDist(p, p1, p2) {
 // rest of the code doesn't care about point format
 
 // basic distance-based simplification
-function simplifyRadialDist(points, sqTolerance) {
+function simplifyRadialDist(points, sqTolerance, outPoints) {
 
-    var prevPoint = points[0],
-        newPoints = [prevPoint],
+    outPoints = outPoints || [points[0]];
+
+    var j = 1,
+        prevPoint = points[0],
         point;
 
     for (var i = 1, len = points.length; i < len; i++) {
         point = points[i];
 
         if (getSqDist(point, prevPoint) > sqTolerance) {
-            newPoints.push(point);
+            outPoints[j++] = point;
             prevPoint = point;
         }
     }
 
     if (prevPoint !== point) {
-        newPoints.push(point);
+        outPoints[j++] = point;
     }
 
-    return newPoints;
+    outPoints.length = j;
+
+    return outPoints;
+
 }
 
 // simplification using optimized Douglas-Peucker algorithm with recursion elimination
@@ -133,7 +138,7 @@ function simplify(points, tolerance, highestQuality, outPoints) {
 
     var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
-    points = highestQuality ? points : simplifyRadialDist(points, sqTolerance);
+    points = highestQuality ? points : simplifyRadialDist(points, sqTolerance, outPoints);
     outPoints = simplifyDouglasPeucker(points, sqTolerance, outPoints);
 
     return outPoints;
