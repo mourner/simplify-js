@@ -71,7 +71,7 @@ function simplifyRadialDist(points, sqTolerance) {
 }
 
 // simplification using optimized Douglas-Peucker algorithm with recursion elimination
-function simplifyDouglasPeucker(points, sqTolerance) {
+function simplifyDouglasPeucker(points, sqTolerance, outPoints) {
 
     var len = points.length,
         MarkerArray = typeof Uint8Array !== 'undefined' ? Uint8Array : Array,
@@ -79,7 +79,6 @@ function simplifyDouglasPeucker(points, sqTolerance) {
         first = 0,
         last = len - 1,
         stack = [],
-        newPoints = [],
         i, maxSqDist, sqDist, index;
 
     markers[first] = markers[last] = 1;
@@ -108,13 +107,25 @@ function simplifyDouglasPeucker(points, sqTolerance) {
 
     }
 
-    for (i = 0; i < len; i++) {
-        if (markers[i]) {
-            newPoints.push(points[i]);
+    if (outPoints) {
+        var j = 0;
+        for (i = 0; i < len; i++) {
+            if (markers[i]) {
+                outPoints[j++] = points[i];
+            }
         }
+        outPoints.length = j;
+        return outPoints;
+    } else {
+        var newPoints = [];
+        for (i = 0; i < len; i++) {
+            if (markers[i]) {
+                newPoints.push(points[i]);
+            }
+        }
+        return newPoints;
     }
 
-    return newPoints;
 }
 
 // both algorithms combined for awesome performance
