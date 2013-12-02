@@ -129,14 +129,14 @@ function simplifyDouglasPeucker(points, sqTolerance, outPoints) {
 }
 
 // both algorithms combined for awesome performance
-function simplify(points, tolerance, highestQuality) {
+function simplify(points, tolerance, highestQuality, outPoints) {
 
     var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
     points = highestQuality ? points : simplifyRadialDist(points, sqTolerance);
-    points = simplifyDouglasPeucker(points, sqTolerance);
+    outPoints = simplifyDouglasPeucker(points, sqTolerance, outPoints);
 
-    return points;
+    return outPoints;
 }
 
 // export as AMD module / Node module / browser variable

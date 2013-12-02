@@ -67,5 +67,16 @@ describe('simplify', function () {
 		var highQualityResult = simplify(points, 5, true);
 		assert.notDeepEqual(result, highQualityResult);
 	});
+	it('should permit in-place simplification', function() {
+		var pointsClone = points.slice();
+		var result = simplify(pointsClone, 5, false, pointsClone);
+		assert.deepEqual(result, simplified);
+		assert.strictEqual(result, pointsClone);
+	});
+	it('should permit high quality in-place simplification', function() {
+		var pointsClone = points.slice();
+		var result = simplify(pointsClone, 5, true, pointsClone);
+		assert.deepEqual(result, simplifiedHighQuality);
+		assert.strictEqual(result, pointsClone);
+	});
 });
-
