@@ -17,9 +17,15 @@
   "main": "simplify.js",
   "devDependencies": {
     "faucet": "0.0.1",
-    "tape": "^2.12.3"
+    "tape": "^2.12.3",
+    "jshint": "^2.5.0"
   },
   "scripts": {
-    "test": "node test.js | faucet"
+    "test": "jshint simplify.js test.js && node test.js | faucet"
+  },
+  "jshintConfig": {
+    "quotmark": "single",
+    "trailing": true,
+    "unused": true
   }
 }

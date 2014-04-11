@@ -4,7 +4,7 @@
  mourner.github.io/simplify-js
 */
 
-(function () { "use strict";
+(function () { 'use strict';
 
 // to suit your point format, run search/replace for '.x' and '.y';
 // for 3D version, see 3d branch (configurability would draw significant performance overhead)
