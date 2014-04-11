@@ -39,12 +39,10 @@ var simplified = [
 ];
 
 var simplify = require('./simplify'),
-	assert = require('assert');
+	t = require('tape');
 
-describe('simplify', function () {
-	it('should simplify points correctly with the given tolerance', function () {
-		var result = simplify(points, 5);
-		assert.deepEqual(result, simplified);
-	});
+t('simplifies points correctly with the given tolerance', function (t) {
+	var result = simplify(points, 5);
+	t.same(result, simplified);
+    t.end();
 });
-

@@ -16,9 +16,10 @@
   },
   "main": "simplify.js",
   "devDependencies": {
-    "mocha": "~1.13.0"
+    "faucet": "0.0.1",
+    "tape": "^2.12.3"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "test": "node test.js | faucet"
   }
 }
