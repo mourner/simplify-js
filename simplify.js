@@ -122,9 +122,10 @@ function simplify(points, tolerance, highestQuality) {
     return points;
 }
 
-// export as AMD module / Node module / browser variable
+// export as AMD module / Node module / browser or worker variable
 if (typeof define === 'function' && define.amd) define(function() { return simplify; });
 else if (typeof module !== 'undefined') module.exports = simplify;
+else if (typeof self !== 'undefined') self.simplify = simplify;
 else window.simplify = simplify;
 
 })();
