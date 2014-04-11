@@ -63,9 +63,7 @@ function simplifyRadialDist(points, sqTolerance) {
         }
     }
 
-    if (prevPoint !== point) {
-        newPoints.push(point);
-    }
+    if (prevPoint !== point) newPoints.push(point);
 
     return newPoints;
 }
@@ -107,9 +105,7 @@ function simplifyDouglasPeucker(points, sqTolerance) {
     }
 
     for (i = 0; i < len; i++) {
-        if (markers[i]) {
-            newPoints.push(points[i]);
-        }
+        if (markers[i]) newPoints.push(points[i]);
     }
 
     return newPoints;
@@ -127,14 +123,8 @@ function simplify(points, tolerance, highestQuality) {
 }
 
 // export as AMD module / Node module / browser variable
-if (typeof define === 'function' && define.amd) {
-    define(function() {
-        return simplify;
-    });
-} else if (typeof module !== 'undefined') {
-    module.exports = simplify;
-} else {
-    window.simplify = simplify;
-}
+if (typeof define === 'function' && define.amd) define(function() { return simplify; });
+else if (typeof module !== 'undefined') module.exports = simplify;
+else window.simplify = simplify;
 
 })();
