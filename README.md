@@ -6,6 +6,7 @@ Checkout the demo with docs: http://mourner.github.io/simplify-js/
 
  * Python: [omarestrella / simplify.py](https://github.com/omarestrella/simplify.py) (by Omar Estrella)
  * PHP: [AKeN / simplify-php](https://github.com/AKeN/simplify-php) (by Rotari Gheorghe)
+ * PHP: [andreychumak / simplify-php](https://github.com/andreychumak/simplify-php) (by Andrey Chumak)
  * Java: [ekeneijeoma / simplify-java](https://github.com/ekeneijeoma/simplify-java) (by Ekene Ijeoma)
  * Java: [hgoebl / simplify-java](https://github.com/hgoebl/simplify-java) (by Heinrich Göbl)
  * Processing: [ekeneijeoma / simplify-processing](https://github.com/ekeneijeoma/simplify-processing) (by Ekene Ijeoma)
