@@ -12,3 +12,4 @@ Checkout the demo with docs: http://mourner.github.io/simplify-js/
  * Processing: [ekeneijeoma / simplify-processing](https://github.com/ekeneijeoma/simplify-processing) (by Ekene Ijeoma)
  * AS3: [fnicollet / simplify-as3](https://github.com/fnicollet/simplify-as3) (by Fabien Nicollet)
  * Rust: [calvinmetcalf / simplify-rs](https://github.com/calvinmetcalf/simplify-rs) (by Calvin Metcalf)
+ * Ruby: [odlp / simplify_rb](https://github.com/odlp/simplify_rb) (by Oliver Peate)
