@@ -14,3 +14,4 @@ Checkout the demo with docs: http://mourner.github.io/simplify-js/
  * Rust: [calvinmetcalf / simplify-rs](https://github.com/calvinmetcalf/simplify-rs) (by Calvin Metcalf)
  * Ruby: [odlp / simplify_rb](https://github.com/odlp/simplify_rb) (by Oliver Peate)
  * Go: [yrsh / simplify_go](https://github.com/yrsh/simplify-go) (by Anton Korotkikh)
+ * C# (Portable): [imshz / simplify-net](https://github.com/imshz/simplify-net) (by Shees Ul-Hassan)
