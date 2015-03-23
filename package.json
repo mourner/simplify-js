@@ -17,8 +17,8 @@
   "main": "simplify.js",
   "devDependencies": {
     "faucet": "0.0.1",
-    "tape": "^2.12.3",
-    "jshint": "^2.5.0"
+    "tape": "^3.5.0",
+    "jshint": "^2.6.3"
   },
   "scripts": {
     "test": "jshint simplify.js test.js && node test.js | faucet"
