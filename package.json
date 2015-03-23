@@ -27,6 +27,7 @@
   "jshintConfig": {
     "quotmark": "single",
     "trailing": true,
-    "unused": true
+    "unused": true,
+    "node": true
   }
 }

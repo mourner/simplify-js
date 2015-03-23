@@ -1,13 +1,6 @@
-/*
- (c) 2013, Vladimir Agafonkin
- Simplify.js, a high-performance JS polyline simplification library
- mourner.github.io/simplify-js
-*/
+'use strict';
 
-(function () { 'use strict';
-
-// to suit your point format, run search/replace for '.x' and '.y';
-// for 3D version, see 3d branch (configurability would draw significant performance overhead)
+module.exports = simplify;
 
 // square distance between 2 points
 function getSqDist(p1, p2) {
@@ -123,11 +116,3 @@ function simplify(points, tolerance, highestQuality) {
 
     return points;
 }
-
-// export as AMD module / Node module / browser or worker variable
-if (typeof define === 'function' && define.amd) define(function() { return simplify; });
-else if (typeof module !== 'undefined') module.exports = simplify;
-else if (typeof self !== 'undefined') self.simplify = simplify;
-else window.simplify = simplify;
-
-})();
