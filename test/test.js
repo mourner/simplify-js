@@ -38,7 +38,7 @@ var simplified = [
     {x:866.36,y:480.77}
 ];
 
-var simplify = require('./simplify'),
+var simplify = require('../simplify'),
     t = require('tape');
 
 t('simplifies points correctly with the given tolerance', function (t) {

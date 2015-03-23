@@ -16,12 +16,13 @@
   },
   "main": "simplify.js",
   "devDependencies": {
+    "benchmark": "^1.0.0",
     "faucet": "0.0.1",
-    "tape": "^3.5.0",
-    "jshint": "^2.6.3"
+    "jshint": "^2.6.3",
+    "tape": "^3.5.0"
   },
   "scripts": {
-    "test": "jshint simplify.js test.js && node test.js | faucet"
+    "test": "jshint simplify.js test/test.js && node test/test.js | faucet"
   },
   "jshintConfig": {
     "quotmark": "single",
