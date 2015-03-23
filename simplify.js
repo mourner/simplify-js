@@ -61,53 +61,41 @@ function simplifyRadialDist(points, sqTolerance) {
     return newPoints;
 }
 
+function simplifyDPStep(points, first, last, sqTolerance, simplified) {
+    var maxSqDist = 0,
+        index;
+
+    for (var i = first + 1; i < last; i++) {
+        var sqDist = getSqSegDist(points[i], points[first], points[last]);
+
+        if (sqDist > maxSqDist) {
+            index = i;
+            maxSqDist = sqDist;
+        }
+    }
+
+    if (maxSqDist > sqTolerance) {
+        simplifyDPStep(points, first, index, sqTolerance, simplified);
+        simplified.push(points[index]);
+        simplifyDPStep(points, index, last, sqTolerance, simplified);
+    }
+}
+
 // simplification using optimized Douglas-Peucker algorithm with recursion elimination
 function simplifyDouglasPeucker(points, sqTolerance) {
+    var simplified = [points[0]],
+        last = points.length - 1;
 
-    var len = points.length,
-        MarkerArray = typeof Uint8Array !== 'undefined' ? Uint8Array : Array,
-        markers = new MarkerArray(len),
-        first = 0,
-        last = len - 1,
-        stack = [],
-        newPoints = [],
-        i, maxSqDist, sqDist, index;
+    simplifyDPStep(points, 0, last, sqTolerance, simplified);
+    simplified.push(points[last]);
 
-    markers[first] = markers[last] = 1;
-
-    while (last) {
-
-        maxSqDist = 0;
-
-        for (i = first + 1; i < last; i++) {
-            sqDist = getSqSegDist(points[i], points[first], points[last]);
-
-            if (sqDist > maxSqDist) {
-                index = i;
-                maxSqDist = sqDist;
-            }
-        }
-
-        if (maxSqDist > sqTolerance) {
-            markers[index] = 1;
-            stack.push(first, index, index, last);
-        }
-
-        last = stack.pop();
-        first = stack.pop();
-    }
-
-    for (i = 0; i < len; i++) {
-        if (markers[i]) newPoints.push(points[i]);
-    }
-
-    return newPoints;
+    return simplified;
 }
 
 // both algorithms combined for awesome performance
 function simplify(points, tolerance, highestQuality) {
 
-    if (points.length <= 1) return points;
+    if (points.length <= 2) return points;
 
     var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
