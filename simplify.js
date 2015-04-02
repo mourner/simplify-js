@@ -102,7 +102,7 @@ function simplifyDouglasPeucker(points, sqTolerance) {
 // both algorithms combined for awesome performance
 function simplify(points, tolerance, highestQuality) {
 
-    if (points.length <= 1) return points;
+    if (points.length <= 2) return points;
 
     var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
