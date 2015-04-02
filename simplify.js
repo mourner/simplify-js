@@ -69,7 +69,7 @@ function simplifyRadialDist(points, sqTolerance) {
 }
 
 function simplifyDPStep(points, first, last, sqTolerance, simplified) {
-    var maxSqDist = 0,
+    var maxSqDist = sqTolerance,
         index;
 
     for (var i = first + 1; i < last; i++) {
