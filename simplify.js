@@ -75,17 +75,17 @@ function simplifyDPStep(points, first, last, sqTolerance, simplified) {
     }
 
     if (maxSqDist > sqTolerance) {
-        simplifyDPStep(points, first, index, sqTolerance, simplified);
+        if (index - first > 1) simplifyDPStep(points, first, index, sqTolerance, simplified);
         simplified.push(points[index]);
-        simplifyDPStep(points, index, last, sqTolerance, simplified);
+        if (last - index > 1) simplifyDPStep(points, index, last, sqTolerance, simplified);
     }
 }
 
-// simplification using optimized Douglas-Peucker algorithm with recursion elimination
+// simplification using Ramer-Douglas-Peucker algorithm
 function simplifyDouglasPeucker(points, sqTolerance) {
-    var simplified = [points[0]],
-        last = points.length - 1;
+    var last = points.length - 1;
 
+    var simplified = [points[0]];
     simplifyDPStep(points, 0, last, sqTolerance, simplified);
     simplified.push(points[last]);
 
