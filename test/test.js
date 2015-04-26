@@ -1,4 +1,4 @@
-var points = [
+var points_1 = [
     {x:224.55,y:250.15},{x:226.91,y:244.19},{x:233.31,y:241.45},{x:234.98,y:236.06},
     {x:244.21,y:232.76},{x:262.59,y:215.31},{x:267.76,y:213.81},{x:273.57,y:201.84},
     {x:273.12,y:192.16},{x:277.62,y:189.03},{x:280.36,y:181.41},{x:286.51,y:177.74},
@@ -26,7 +26,7 @@ var points = [
     {x:847.16,y:458.44},{x:851.38,y:462.79},{x:853.97,y:471.15},{x:866.36,y:480.77}
 ];
 
-var simplified = [
+var simplified_1 = [
     {x:224.55,y:250.15},{x:267.76,y:213.81},{x:296.91,y:155.64},{x:330.33,y:137.57},
     {x:409.52,y:141.14},{x:439.60,y:119.74},{x:486.51,y:106.75},{x:529.57,y:127.86},
     {x:539.27,y:147.24},{x:617.74,y:159.86},{x:629.55,y:194.60},{x:671.55,y:222.55},
@@ -38,23 +38,101 @@ var simplified = [
     {x:866.36,y:480.77}
 ];
 
+var points_2 = [
+        {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 5, y: 7}, {x: 5, y: 7}, {x: 5, y: 7}, {x: 10, y: 10}, {x: 10, y: 10}, {x: 10, y: 10},
+        {x: 20, y: 19}, {x: 20, y: 19}, {x: 20, y: 19}, {x: 20, y: 19}, {x: 20, y: 19}, {x: 20, y: 19}, {x: 20, y: 19}
+    ];
+
+var simplified_2 = [
+    {x: 0, y: 0}, {x: 5, y: 7}, {x: 20, y: 19}
+];
+
+var points_3 = [
+    {x: 1, y: 1}, {x: 2, y: 2}, {x: 3, y: 3}, {x: 4, y: 4}, {x: 5, y: 5},
+    {x: 6, y: 6}, {x: 7, y: 7}, {x: 8, y: 8}, {x: 9, y: 9}, {x: 10, y: 10}
+];
+
+var simplified_3 = [
+    {x: 1, y: 1}, {x: 10, y: 10}
+];
+
+var points_4 = [
+    {x: 1, y: 0}, {x: 2, y: 0}, {x: 3, y: 0}, {x: 2.9, y: 1}, {x: 2.8, y: 2}, {x: 2.9, y: 3}, {x: 3, y: 4},
+    {x: 3.1, y: 3}, {x: 3.2, y: 2}, {x: 3.1, y: 1}, {x: 3, y: 0}, {x: 4, y: 0}, {x: 5, y: 0}
+];
+
+var simplified_4 = [
+    {x: 1, y: 0}, {x: 3, y: 0}, {x: 3, y: 4}, {x: 3, y: 0}, {x: 5, y: 0}
+];
+
 var simplify = require('../simplify'),
     t = require('tape');
 
 t('simplifies points correctly with the given tolerance', function (t) {
-    var result = simplify(points, 5);
-    t.same(result, simplified);
+    var result = simplify(points_1, 5);
+    t.same(result, simplified_1);
     t.end();
 });
 
-t('just return the points if it has only one point', function(t){
-    var result = simplify([{x:1, y:2}]);
-    t.same(result, [{x:1, y:2}]);
+t('Simplify points containing duplicates', function (t) {
+    t.same(simplify(points_2, 1, false), simplified_2);
+    t.same(simplify(points_2, 1, true), simplified_2);
     t.end();
 });
 
-t('just return the points if it has no points', function(t){
-    var result = simplify([]);
+t('Simplify collinear points', function (t) {
+    t.same(simplify(points_3, 0, false), simplified_3);
+    t.same(simplify(points_3, 0, true), simplified_3);
+    t.end();
+});
+
+t('Simplify points containing loop', function (t) {
+    t.same(simplify(points_4, 1, false), simplified_4);
+    t.same(simplify(points_4, 1, true), simplified_4);
+    t.end();
+});
+
+t('simplify: [] -> []', function (t) { // just return the points if it has no points
+    var result = simplify([], 1);
     t.same(result, []);
+    t.end();
+});
+
+t('simplify: [p] -> [p]', function (t) { // just return the points if it has only one point
+    var result = simplify([{x: 1, y: 2}], 1);
+    t.same(result, [{x: 1, y: 2}]);
+    t.end();
+});
+
+t('simplify: [p, p] -> [p]', function (t) {
+    var result = simplify([{x: 1, y: 2}, {x: 1, y: 2}], 1);
+    t.same(result, [{x: 1, y: 2}]);
+    t.end();
+});
+
+t('simplify: [p*] -> [p]', function (t) {
+    var result = simplify([{x: 1, y: 2}, {x: 1, y: 2}, {x: 1, y: 2}, {x: 1, y: 2}], 1);
+    t.same(result, [{x: 1, y: 2}]);
+    t.end();
+});
+
+t('simplify: [p1, p2] -> [p1, p2]', function (t) {
+    var result = simplify([{x: 1, y: 2}, {x: 4, y: 3}], 1);
+    t.same(result, [{x: 1, y: 2}, {x: 4, y: 3}]);
+    t.end();
+});
+
+t('simplify: [p1, p2*, p3] -> [p1, p2, p3]', function (t) {
+    var result = simplify([{x: 1, y: 2}, {x: 3, y: 4}, {x: 3, y: 4}, {x: 3, y: 4}, {x: 3, y: 4}, {x: 5, y: 2}], 1);
+    t.same(result, [{x: 1, y: 2}, {x: 3, y: 4}, {x: 5, y: 2}]);
+    t.end();
+});
+
+t('simplify: [p1*, p2*] -> [p1, p2]', function (t) {
+    var result = simplify([
+            {x: 1, y: 2}, {x: 1, y: 2}, {x: 1, y: 2},
+            {x: 4, y: 3}, {x: 4, y: 3}, {x: 4, y: 3}, {x: 4, y: 3}],
+        1);
+    t.same(result, [{x: 1, y: 2}, {x: 4, y: 3}]);
     t.end();
 });
