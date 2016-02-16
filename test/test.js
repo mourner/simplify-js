@@ -105,7 +105,7 @@ t('quality == 1', function(t){
 });
 
 t('quality == true', function(t){
-    var result = simplify(points, 5, 1);
+    var result = simplify(points, 5, true);
     t.same(result, simplified[1]);
     t.end();
 });
