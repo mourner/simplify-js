@@ -4,6 +4,7 @@
   "description": "A high-performance JavaScript 2D/3D polyline simplification library",
   "homepage": "http://mourner.github.com/simplify-js/",
   "author": "Vladimir Agafonkin",
+  "license": "BSD-2-Clause",
   "keywords": [
     "math",
     "geometry",
