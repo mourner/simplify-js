@@ -16,3 +16,4 @@ Checkout the demo with docs: http://mourner.github.io/simplify-js/
  * Go: [yrsh / simplify_go](https://github.com/yrsh/simplify-go) (by Anton Korotkikh)
  * C# (Portable): [imshz / simplify-net](https://github.com/imshz/simplify-net) (by Shees Ul-Hassan)
  * Swift: [malcommac / SwiftSimplify](https://github.com/malcommac/SwiftSimplify) (by Daniele Margutti)
+ * Unreal Engine: [SINTEF-9012 / SimplifyUnreal](https://github.com/SINTEF-9012/SimplifyUnreal) (by Antoine Pultier)
