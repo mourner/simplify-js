@@ -114,8 +114,10 @@ function simplify(points, tolerance, highestQuality) {
 
 // export as AMD module / Node module / browser or worker variable
 if (typeof define === 'function' && define.amd) define(function() { return simplify; });
-else if (typeof module !== 'undefined') module.exports = simplify;
-else if (typeof self !== 'undefined') self.simplify = simplify;
+else if (typeof module !== 'undefined') {
+    module.exports = simplify;
+    module.exports.default = simplify;
+} else if (typeof self !== 'undefined') self.simplify = simplify;
 else window.simplify = simplify;
 
 })();
