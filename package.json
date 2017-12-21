@@ -16,11 +16,14 @@
     "url": "git://github.com/mourner/simplify-js.git"
   },
   "main": "simplify.js",
+  "files": [
+    "simplify.js"
+  ],
   "devDependencies": {
-    "benchmark": "^1.0.0",
+    "benchmark": "^2.1.4",
     "faucet": "0.0.1",
-    "jshint": "^2.6.3",
-    "tape": "^3.5.0"
+    "jshint": "^2.9.5",
+    "tape": "^4.8.0"
   },
   "scripts": {
     "test": "jshint simplify.js test/test.js && node test/test.js | faucet"
