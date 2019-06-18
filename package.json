@@ -17,8 +17,10 @@
   },
   "main": "simplify.js",
   "files": [
+    "index.d.ts",
     "simplify.js"
   ],
+  "types": "index.d.ts",
   "devDependencies": {
     "benchmark": "^2.1.4",
     "faucet": "0.0.1",
