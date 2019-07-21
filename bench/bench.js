@@ -1,12 +1,11 @@
+import { Suite } from 'benchmark';
+import simplify from '../index.js';
 
-var Benchmark = require('benchmark');
-var simplify = require('../simplify');
-
-var points = require('../test/fixtures/1k.json');
+import points from '../test/fixtures/1k.json';
 
 console.log('Benchmarking simplify on ' + points.length + ' points...');
 
-new Benchmark.Suite()
+new Suite()
 .add('simplify (HQ)', function() {
     simplify(points, 1, true);
 })
