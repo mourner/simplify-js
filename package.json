@@ -16,23 +16,33 @@
     "url": "git://github.com/mourner/simplify-js.git"
   },
   "main": "simplify.js",
+  "module": "index.js",
   "files": [
     "index.d.ts",
-    "simplify.js"
+    "index.js",
+    "simplify.js",
+    "simplify.min.js"
   ],
   "types": "index.d.ts",
   "devDependencies": {
     "benchmark": "^2.1.4",
+    "eslint": "^6.0.1",
+    "eslint-config-mourner": "^3.0.0",
+    "esm": "^3.2.25",
     "faucet": "0.0.1",
-    "jshint": "^2.9.5",
+    "rollup": "^1.17.0",
+    "rollup-plugin-buble": "^0.19.8",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.1.1",
     "tape": "^4.8.0"
   },
   "scripts": {
-    "test": "jshint simplify.js test/test.js && node test/test.js | faucet"
+    "build": "rollup -c",
+    "pretest": "eslint index.js test/test.js",
+    "test": "tape -r esm test/test.js | faucet",
+    "perf": "node -r esm bench/bench.js"
   },
-  "jshintConfig": {
-    "quotmark": "single",
-    "trailing": true,
-    "unused": true
+  "eslintConfig": {
+    "extends": "mourner"
   }
 }
