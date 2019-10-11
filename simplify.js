@@ -64,7 +64,7 @@ function getSqSegDist(p, p1, p2) {
             return segmentDeltas[dimension] !== 0;
         });
 
-    var refPoint;
+    var refPoint = p1;
 
     if (hasNonZeroDelta) {
         var deltas = getDeltas(p, p1).deltas;
