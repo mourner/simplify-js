@@ -21,7 +21,7 @@ function getDeltas(p1, p2) {
     }, {});
     return {
         deltas: deltas,
-        dimensions: dimensions
+        dimensions: dimensions,
     };
 }
 
@@ -41,7 +41,7 @@ function getSqDist(p1, p2) {
     return {
         deltas: deltas,
         dimensions: dimensions,
-        distance: distance
+        distance: distance,
     };
 }
 
@@ -59,9 +59,10 @@ function getSqSegDist(p, p1, p2) {
     var segmentDistance = sqDistOut.distance;
     var dimensions = sqDistOut.dimensions;
 
-    var hasNonZeroDelta = Object.values(segmentDeltas).some(function(d) {
-        return d !== 0;
-    });
+    var hasNonZeroDelta = dimensions
+        .some(function(dimension) {
+            return segmentDeltas[dimension] !== 0;
+        });
 
     var refPoint;
 
