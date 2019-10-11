@@ -59,14 +59,9 @@ function getSqSegDist(p, p1, p2) {
     var segmentDistance = sqDistOut.distance;
     var dimensions = sqDistOut.dimensions;
 
-    var hasNonZeroDelta = dimensions
-        .some(function(dimension) {
-            return segmentDeltas[dimension] !== 0;
-        });
-
     var refPoint = p1;
 
-    if (hasNonZeroDelta) {
+    if (segmentDistance > 0) {
         var deltas = getDeltas(p, p1).deltas;
         var cumulative = dimensions.reduce(function(sum, dimension) {
             return sum + (deltas[dimension] * segmentDeltas[dimension]);
