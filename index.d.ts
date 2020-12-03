@@ -3,7 +3,7 @@ interface Point {
 	y: number;
 }
 
-declare function simplify (points: Point[], tolerance?: number, highQuality?: boolean): Point[];
+declare function simplify<T extends Point>(points: T[], tolerance?: number, highQuality?: boolean): T[];
 declare namespace simplify {}
 
 export = simplify;
