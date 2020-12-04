@@ -100,13 +100,19 @@ function simplifyDouglasPeucker(points, sqTolerance) {
 }
 
 // both algorithms combined for awesome performance
-function simplify(points, tolerance, highestQuality) {
+function simplify(points, tolerance, quality) {
 
     if (points.length <= 2) return points;
 
     var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
-    points = highestQuality ? points : simplifyRadialDist(points, sqTolerance);
+    quality = quality !== undefined ? +quality : 0;
+    quality = quality < 0 ? 0 : (quality > 1 ? 1 : quality);
+    if (quality < 1) {
+        var sqToleranceFactor = (1 - quality) * (1 - quality);
+        points = simplifyRadialDist(points, sqTolerance * sqToleranceFactor);
+    }
+
     points = simplifyDouglasPeucker(points, sqTolerance);
 
     return points;
