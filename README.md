@@ -17,3 +17,4 @@ Checkout the demo with docs: http://mourner.github.io/simplify-js/
  * C# (Portable): [imshz / simplify-net](https://github.com/imshz/simplify-net) (by Shees Ul-Hassan)
  * Swift: [malcommac / SwiftSimplify](https://github.com/malcommac/SwiftSimplify) (by Daniele Margutti)
  * Unreal Engine: [SINTEF-9012 / SimplifyUnreal](https://github.com/SINTEF-9012/SimplifyUnreal) (by Antoine Pultier)
+ * Postgres (using PL/Python): [shubhamjain / simplify-coordinates-sql](https://github.com/shubhamjain/simplify-coordinates-sql) (by Shubham Jain)
