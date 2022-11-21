@@ -9,6 +9,13 @@
 // to suit your point format, run search/replace for '.x' and '.y';
 // for 3D version, see 3d branch (configurability would draw significant performance overhead)
 
+function pushUnique(points, point) {
+    var p = points[points.length - 1];
+        if (p.x != point.x || p.y != point.y) {
+            points.push(point);
+        }
+    }
+
 // square distance between 2 points
 function getSqDist(p1, p2) {
 
@@ -94,7 +101,7 @@ function simplifyDouglasPeucker(points, sqTolerance) {
 
     var simplified = [points[0]];
     simplifyDPStep(points, 0, last, sqTolerance, simplified);
-    simplified.push(points[last]);
+    pushUnique(simplified, points[last]);
 
     return simplified;
 }
@@ -102,7 +109,7 @@ function simplifyDouglasPeucker(points, sqTolerance) {
 // both algorithms combined for awesome performance
 function simplify(points, tolerance, highestQuality) {
 
-    if (points.length <= 2) return points;
+    if (points.length <= 1) return points;
 
     var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
