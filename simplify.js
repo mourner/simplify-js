@@ -6,44 +6,79 @@
 
 (function () { 'use strict';
 
-// to suit your point format, run search/replace for '.x' and '.y';
-// for 3D version, see 3d branch (configurability would draw significant performance overhead)
-
-// square distance between 2 points
-function getSqDist(p1, p2) {
-
-    var dx = p1.x - p2.x,
-        dy = p1.y - p2.y;
-
-    return dx * dx + dy * dy;
+/**
+ * Square distance between 2 points
+ *
+ * @param {Point} p1
+ * @param {Point} p2
+ * @return {{deltas: Point, dimensions: string[]}}
+ */
+function getDeltas(p1, p2) {
+    var dimensions = Object.keys(p1);
+    var deltas = dimensions.reduce(function(out, dim) {
+        out[dim] = p1[dim] - p2[dim];
+        return out;
+    }, {});
+    return {
+        deltas: deltas,
+        dimensions: dimensions,
+    };
 }
 
-// square distance from a point to a segment
+/**
+ * @param {Point} p1
+ * @param {Point} p2
+ * @return {{distance: number, deltas: Point, dimensions: string[]}}
+ */
+function getSqDist(p1, p2) {
+    var deltaOut = getDeltas(p1, p2);
+    var deltas = deltaOut.deltas;
+    var dimensions = deltaOut.dimensions;
+
+    var distance = dimensions.reduce(function(out, dimension) {
+        return out + (deltas[dimension] * deltas[dimension]);
+    }, 0);
+    return {
+        deltas: deltas,
+        dimensions: dimensions,
+        distance: distance,
+    };
+}
+
+/**
+ * Square distance from a point to a segment
+ *
+ * @param {Point} p
+ * @param {Point} p1
+ * @param {Point} p2
+ * @return {number}
+ */
 function getSqSegDist(p, p1, p2) {
+    var sqDistOut = getSqDist(p2, p1);
+    var segmentDeltas = sqDistOut.deltas;
+    var segmentDistance = sqDistOut.distance;
+    var dimensions = sqDistOut.dimensions;
 
-    var x = p1.x,
-        y = p1.y,
-        dx = p2.x - x,
-        dy = p2.y - y;
+    var refPoint = p1;
 
-    if (dx !== 0 || dy !== 0) {
-
-        var t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy);
+    if (segmentDistance > 0) {
+        var deltas = getDeltas(p, p1).deltas;
+        var cumulative = dimensions.reduce(function(sum, dimension) {
+            return sum + (deltas[dimension] * segmentDeltas[dimension]);
+        }, 0);
+        var t = cumulative / segmentDistance;
 
         if (t > 1) {
-            x = p2.x;
-            y = p2.y;
-
+            refPoint = p2;
         } else if (t > 0) {
-            x += dx * t;
-            y += dy * t;
+            refPoint = dimensions.reduce(function(out, dim) {
+                out[dim] = p1[dim] + (segmentDeltas[dim] * t);
+                return out;
+            }, {});
         }
     }
 
-    dx = p.x - x;
-    dy = p.y - y;
-
-    return dx * dx + dy * dy;
+    return getSqDist(p, refPoint).distance;
 }
 // rest of the code doesn't care about point format
 
@@ -57,7 +92,7 @@ function simplifyRadialDist(points, sqTolerance) {
     for (var i = 1, len = points.length; i < len; i++) {
         point = points[i];
 
-        if (getSqDist(point, prevPoint) > sqTolerance) {
+        if (getSqDist(point, prevPoint).distance > sqTolerance) {
             newPoints.push(point);
             prevPoint = point;
         }

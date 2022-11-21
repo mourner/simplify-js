@@ -1,6 +1,5 @@
 interface Point {
-	x: number;
-	y: number;
+	[k: string]: number;
 }
 
 declare function simplify<T extends Point>(points: T[], tolerance?: number, highQuality?: boolean): T[];
